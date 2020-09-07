@@ -36,5 +36,5 @@ players = response['elements']
 teams = response['teams']
 events = response['events']
 
-with open('data.json', 'w', encoding='utf-8') as f:
+with open('../data/data.json', 'w', encoding='utf-8') as f:
     json.dump(players, f, ensure_ascii=False, indent=4)
