@@ -17,9 +17,7 @@ def detailedinfo(playerid):
     url = 'https://fantasy.premierleague.com/api/element-summary/' + \
     str(playerid) + '/' 
     response = get(url)
-    fixtures = response['fixtures']
-    history = response['history']
-    history_past = response['history_past']
+    return response
     
 
 pd.options.display.max_columns=None
@@ -33,7 +31,8 @@ response = json.loads(response.content)
 players = response['elements']
 teams = response['teams']
 events = response['events']
-
+    
+# Save info
 with open('../data/players_data.json', 'w', encoding='utf-8') as f:
     json.dump(players, f, ensure_ascii=False, indent=4)
     
@@ -42,3 +41,10 @@ with open('../data/teams_data.json', 'w', encoding='utf-8') as f:
     
 with open('../data/events_data.json', 'w', encoding='utf-8') as f:
     json.dump(events, f, ensure_ascii=False, indent=4)
+    
+# Import detailed info
+for i in range(506):
+    info = detailedinfo(i)
+    path = '../data/players/' + str(i) + '.json'
+    with open(path, 'w', encoding='utf-8') as f:
+        json.dump(info, f, ensure_ascii=False, indent=4)

@@ -25,6 +25,8 @@ players_df = pd.DataFrame(players)
 teams_df = pd.DataFrame(teams)
 events_df = pd.DataFrame(events)
 
+print(players_df.head())
+
 # Clean data
 # events_df['deadline_time'] = pd.to_datetime(events_df['deadline_time'])
 # events_df['deadline_time'] = events_df['deadline_time'].dt.tz_localize(None)
@@ -33,9 +35,15 @@ events_df = pd.DataFrame(events)
 # Create players predicted points dataframe
 preds_df = pd.DataFrame()
 
+'''
 form = 0
+if (defender):
+    strength_att = 0
+if(attacker):
+    strength_def = 0
 
-
+strength_modifier = 
+'''
 
 # FIRST TIME
 
