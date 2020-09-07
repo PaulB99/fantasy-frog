@@ -5,18 +5,36 @@ Created on Thu Sep  3 23:21:45 2020
 @author: paulb
 """
 
+import json
+import requests
+import pandas as pd
+import numpy as np
+
+# Load in data
+with open('../data/players_data.json') as json_file:
+    players = json.load(json_file)
+
+with open('../data/teams_data.json') as json_file:
+    teams = json.load(json_file)
+    
+with open('../data/events_data.json') as json_file:
+    events = json.load(json_file)
+
 # Create pandas dataframes
 players_df = pd.DataFrame(players)
 teams_df = pd.DataFrame(teams)
 events_df = pd.DataFrame(events)
 
 # Clean data
-events_df['deadline_time'] = pd.to_datetime(events_df['deadline_time'])
-events_df['deadline_time'] = events_df['deadline_time'].dt.tz_localize(None)
+# events_df['deadline_time'] = pd.to_datetime(events_df['deadline_time'])
+# events_df['deadline_time'] = events_df['deadline_time'].dt.tz_localize(None)
 
 
 # Create players predicted points dataframe
 preds_df = pd.DataFrame()
+
+form = 0
+
 
 
 # FIRST TIME

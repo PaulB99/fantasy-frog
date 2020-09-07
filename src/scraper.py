@@ -6,9 +6,7 @@ Created on Mon Sep  7 19:39:13 2020
 """
 
 import requests
-import os
 import pandas as pd
-import numpy as np
 import json
 
 def get(url):
@@ -36,5 +34,11 @@ players = response['elements']
 teams = response['teams']
 events = response['events']
 
-with open('../data/data.json', 'w', encoding='utf-8') as f:
+with open('../data/players_data.json', 'w', encoding='utf-8') as f:
     json.dump(players, f, ensure_ascii=False, indent=4)
+    
+with open('../data/teams_data.json', 'w', encoding='utf-8') as f:
+    json.dump(teams, f, ensure_ascii=False, indent=4)
+    
+with open('../data/events_data.json', 'w', encoding='utf-8') as f:
+    json.dump(events, f, ensure_ascii=False, indent=4)
