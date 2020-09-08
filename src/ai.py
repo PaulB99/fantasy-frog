@@ -281,6 +281,9 @@ for pos in range(len(starting_team)):   # Apply (C) for captain
         s = tuple(lst)
         starting_team[pos] = s
         
+# Order bench
+bench.sort(reverse = True, key = lambda b: preds_next[b[1]])
+        
 # Print team
 print('Starting 11 : \n')
 print(best_gk[0])
