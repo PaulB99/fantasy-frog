@@ -120,26 +120,47 @@ selection = []
 for k in range(total):
     select_pos = players_df.at[k, 'element_type']  # 1=gk, 2=def, 3=mid, 4=fwd
     if (select_pos == 1 and gk_num < gk_limit):
-        selection.append(players_df.at[k, 'web_name'])
-        gk_num+=1
+        selection.append((players_df.at[k, 'web_name'], 'gk'))
+        gk_num +=1
     elif (select_pos == 2 and def_num < def_limit):
-        selection.append(players_df.at[k, 'web_name'])
-        def_num+=1
+        selection.append((players_df.at[k, 'web_name'], 'def'))
+        def_num +=1
     elif (select_pos == 3 and mid_num < mid_limit):
-        selection.append(players_df.at[k, 'web_name'])
-        mid_num+=1
+        selection.append((players_df.at[k, 'web_name'], 'mid'))
+        mid_num +=1
     elif (select_pos == 4 and fwd_num < fwd_limit):
-        selection.append(players_df.at[k, 'web_name'])
-        fwd_num+=1
+        selection.append((players_df.at[k, 'web_name'], 'fwd'))
+        fwd_num +=1
         
 # Print selections
+line1 = ''
+line2 = ''
+line3 = ''
+line4 = ''
 for l in range(15):
-    print(selection[l] + ' - '),
+    if(selection[l][1] == 'gk'):
+        line1 += selection[l][0] + ' '
+    elif(selection[l][1] == 'def'):
+        line2 += selection[l][0] + ' '
+    elif(selection[l][1] == 'mid'):
+        line3 += selection[l][0] + ' '
+    else:
+        line4 += selection[l][0] + ' '
+        
+print (line1)
+print (line2)
+print (line3)
+print (line4)
+    
+'''
+    print(selection[l][0], end='')
     if(l == 1 or l == 6 or l == 11):
         print('')
+    else:
+        print(' - ', end='') '''
     
         
-        '''  
+'''  
 form = 0
 if (defender):
     strength_att = 0
@@ -148,8 +169,6 @@ if(attacker):
 
 strength_modifier = 
 '''
-print(preds_5[0])
-print(preds_next[0])
 # FIRST TIME
 
 # Import datasets
