@@ -133,69 +133,98 @@ for k in range(total):
     select_pos = players_df.at[k, 'element_type']  # 1=gk, 2=def, 3=mid, 4=fwd
     if (select_pos == 1):
         if (gk_num < gk_limit):
-            selection.append((players_df.at[k, 'web_name'], 'gk'))
             gks.append((players_df.at[k, 'web_name'], k))
             gk_num +=1
             team_cost+= int(players_df.at[k, 'now_cost'])
         else:
             for m in range(2):
                 if(validswap(int(players_df.at[k, 'now_cost']), int(players_df.at[gks[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[gks[m][1]]):
-                    new_selection = [n for n in selection if n[0] == gks[m][0]]
-                    new_gks = [n for n in gks if n[0] == gks[m][0]]
+                    new_gks = [n for n in gks if n[0] != gks[m][0]]
                     
-                    new_selection.append((players_df.at[k, 'web_name'], 'gk'))
                     new_gks.append((players_df.at[k, 'web_name'], k))
                     
                     team_cost -= int(players_df.at[gks[m][1], 'now_cost'])
                     team_cost += int(players_df.at[k, 'now_cost'])
                     
-                    selection = new_selection
                     gks = new_gks
                     break
                 
     elif (select_pos == 2):
         if (def_num < def_limit):
-            selection.append((players_df.at[k, 'web_name'], 'def'))
             defs.append((players_df.at[k, 'web_name'], k))
             def_num +=1
             team_cost+= int(players_df.at[k, 'now_cost'])
+        else:
+            for m in range(5):
+                if(validswap(int(players_df.at[k, 'now_cost']), int(players_df.at[defs[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[defs[m][1]]):
+                    new_defs = [n for n in defs if n[0] != defs[m][0]]
+                    
+                    new_defs.append((players_df.at[k, 'web_name'], k))
+                    
+                    team_cost -= int(players_df.at[defs[m][1], 'now_cost'])
+                    team_cost += int(players_df.at[k, 'now_cost'])
+                    
+                    defs = new_defs
+                    break
             
     elif (select_pos == 3):
         if(mid_num < mid_limit):
-            selection.append((players_df.at[k, 'web_name'], 'mid'))
             mids.append((players_df.at[k, 'web_name'], k))
             mid_num +=1
             team_cost+= int(players_df.at[k, 'now_cost'])
+        else:
+            for m in range(5):
+                if(validswap(int(players_df.at[k, 'now_cost']), int(players_df.at[mids[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[mids[m][1]]):
+                    new_mids = [n for n in mids if n[0] != mids[m][0]]
+                    
+                    new_mids.append((players_df.at[k, 'web_name'], k))
+                    
+                    team_cost -= int(players_df.at[mids[m][1], 'now_cost'])
+                    team_cost += int(players_df.at[k, 'now_cost'])
+                    
+                    mids = new_mids
+                    break
             
     elif (select_pos == 4):
         if(fwd_num < fwd_limit):
-            selection.append((players_df.at[k, 'web_name'], 'fwd'))
             fwds.append((players_df.at[k, 'web_name'], k))
             fwd_num +=1
             team_cost+= int(players_df.at[k, 'now_cost'])
-        
+        else:
+            for m in range(3):
+                if(validswap(int(players_df.at[k, 'now_cost']), int(players_df.at[fwds[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[fwds[m][1]]):
+                    new_fwds = [n for n in fwds if n[0] != fwds[m][0]]
+                    
+                    new_fwds.append((players_df.at[k, 'web_name'], k))
+                    
+                    team_cost -= int(players_df.at[fwds[m][1], 'now_cost'])
+                    team_cost += int(players_df.at[k, 'now_cost'])
+                    
+                    fwds = new_fwds
+                    break
+    print(len(defs))
 # Print selections
 line1 = ''
 line2 = ''
 line3 = ''
 line4 = ''
 print(len(selection))
-print(len(gks))
-print(len(mids))
-for l in range(len(selection)):
-    if(selection[l][1] == 'gk'):
-        line1 += selection[l][0] + ' '
-    elif(selection[l][1] == 'def'):
-        line2 += selection[l][0] + ' '
-    elif(selection[l][1] == 'mid'):
-        line3 += selection[l][0] + ' '
-    else:
-        line4 += selection[l][0] + ' '
-        
-print (line1)
-print (line2)
-print (line3)
-print (line4)
+for l in range(len(gks)):
+    print(gks[l][0] + '   ', end='')
+print('\n')
+
+for l in range(len(defs)):
+    print(defs[l][0] + '   ', end='')
+print('\n')
+
+for l in range(len(mids)):
+    print(mids[l][0] + '   ', end='')
+print('\n')
+
+for l in range(len(fwds)):
+    print(fwds[l][0] + '   ', end='')
+print('\n')
+
 print ('Value = ' + str(team_cost/10) + 'm')
     
 '''
