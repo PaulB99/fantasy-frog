@@ -3,14 +3,14 @@ An algorithm to play FPL
 
 First coherent team: 
 
-              Lloris
+                  Lloris
               
-Alonso   Pereira   Thomas   Doherty   Boly
+    Alonso   Pereira   Thomas   Doherty   Boly
 
-        Fernandes (C)    Son
+            Fernandes (C)    Son
 
-    Martial   Antonio   JimÃ©nez
+        Martial   Antonio   JimÃ©nez
     
-Bench : 
+    Bench : 
 
-Martin   Lundstram   Ritchie   Shelvey   
+    Martin   Lundstram   Ritchie   Shelvey   
