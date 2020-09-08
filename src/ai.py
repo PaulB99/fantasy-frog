@@ -202,13 +202,24 @@ for k in range(total):
                     
                     fwds = new_fwds
                     break
-    print(len(defs))
+    
+# Find predicted score for this week and next weeks
+pred_week = 0
+pred_5 = 0
+for g in gks:
+    pred_week += preds_next[g[1]]
+    pred_5 += preds_5[g[1]]
+for d in defs:
+    pred_week += preds_next[d[1]]
+    pred_5 += preds_5[d[1]]
+for m in mids:
+    pred_week += preds_next[m[1]]
+    pred_5 += preds_5[m[1]]
+for f in fwds:
+    pred_week += preds_next[f[1]]
+    pred_5 += preds_5[f[1]]
+
 # Print selections
-line1 = ''
-line2 = ''
-line3 = ''
-line4 = ''
-print(len(selection))
 for l in range(len(gks)):
     print(gks[l][0] + '   ', end='')
 print('\n')
@@ -226,6 +237,44 @@ for l in range(len(fwds)):
 print('\n')
 
 print ('Value = ' + str(team_cost/10) + 'm')
+
+print ('Predicted score this week = ' + str(pred_week))
+
+print ('Predicted score for next 5 weeks = ' + str(pred_5))
+
+print ('\n')
+
+# DETERMINE STARTING TEAM
+
+best_gk = gks[0]
+if (preds_next[gks[1][1]] > preds_next[gks[0][1]]):
+    best_gk = gks[1][0]
+
+starting_team = []
+for d in defs:
+    starting_team.append(d)  # Defenders will always fit
+for m in mids:
+    starting_team.append(m)  # Mids will just about fit
+for f in fwds:
+    lowest = starting_team[0]
+    for s in starting_team:  # Find lowest scoring player
+        if(preds_next[s[1]] < preds_next[lowest[1]]):
+            lowest = s
+    if (preds_next[f[1]] > preds_next[lowest[1]]):
+        new_team = [n for n in starting_team if n[0] != lowest[0]]
+        new_team.append(f)
+        starting_team = new_team
+
+# Find captain
+captain = (best_gk)
+for s in starting_team:
+    if (preds_next[s[1]] > preds_next[captain[1]]):
+        captain = s
+print(captain)
+print(best_gk[0])
+for s in starting_team:
+    print(s[0])
+    
     
 '''
     print(selection[l][0], end='')
