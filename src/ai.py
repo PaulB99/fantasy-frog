@@ -33,9 +33,16 @@ events_df = pd.DataFrame(events)
 pred_df = pd.DataFrame()
 pred_df[['web_name', 'id', 'total_points', 'form', 'team', 'cost']] = players_df[['web_name', 'id', 'total_points', 'form', 'team', 'now_cost']]
 
-difficulties_5 = [] # difficulty for each player in order
-difficulties_next = [] # difficulty for each player in order
-        
+preds_5 = [] # Predictions of points per player in next 5 matches
+preds_next = [] # Predictions of points in next match
+
+# Find average difficulty
+t = 0
+for x in range(20):
+    t += teams_df.at[x, "strength_overall_home"]
+    t += teams_df.at[x, "strength_overall_away"]
+average = t/40
+print(average)
 # Clean data
 # events_df['deadline_time'] = pd.to_datetime(events_df['deadline_time'])
 # events_df['deadline_time'] = events_df['deadline_time'].dt.tz_localize(None)
@@ -80,8 +87,22 @@ for i in range(1, total+1):
                     diffi_5 += teams_df.at[j, 'strength_defence_home']
                     if(j == 0):
                         diffi_next += teams_df.at[j, 'strength_defence_home']
-        difficulties_5.append(diffi_5) # Append difficulties to array
-        difficulties_next.append(diffi_next)
+        
+        # Get form and ppg data
+        form = float(players_df.at[i-1, 'form'])
+        ppg = float(players_df.at[i-1, 'points_per_game'])
+        
+        # MAKE PREDICTIONS
+        if(form == 0.0): # if no form
+            pred_5 = (ppg * (diffi_5/average))
+            pred_next = (ppg * (diffi_next/average))
+        else:
+            pred_5 = ((ppg + form)/2 * (diffi_5/average))
+            pred_next = ((ppg + form)/2 * (diffi_next/average))
+        
+        # Add to array
+        preds_5.append(pred_5)
+        preds_next.append(pred_next)
             
         
         '''  
@@ -93,7 +114,8 @@ if(attacker):
 
 strength_modifier = 
 '''
-
+print(preds_5[0])
+print(preds_next[0])
 # FIRST TIME
 
 # Import datasets
