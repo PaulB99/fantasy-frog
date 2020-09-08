@@ -11,8 +11,15 @@ import pandas as pd
 import numpy as np
 from scipy.optimize import linprog
 
+def validswap(x, y, value):
+    if(value + x - y <= budget):
+        return True
+    else:
+        return False
+
 total = 505
 gameweek = 1
+budget = 1000
 
 # Load in data
 with open('../data/players_data.json') as json_file:
@@ -104,7 +111,6 @@ for i in range(1, total+1):
         preds_5.append(pred_5)
         preds_next.append(pred_next)
             
-
 gk_limit = 2  # Amount of players per position
 gk_num = 0
 def_limit = 5
@@ -114,30 +120,69 @@ mid_num = 0
 fwd_limit = 3
 fwd_num = 0
 
+team_cost = 0
+
 selection = []
+gks = []
+defs = []
+mids = []
+fwds = []
     
 # MAKE SELECTIONS
 for k in range(total):
     select_pos = players_df.at[k, 'element_type']  # 1=gk, 2=def, 3=mid, 4=fwd
-    if (select_pos == 1 and gk_num < gk_limit):
-        selection.append((players_df.at[k, 'web_name'], 'gk'))
-        gk_num +=1
-    elif (select_pos == 2 and def_num < def_limit):
-        selection.append((players_df.at[k, 'web_name'], 'def'))
-        def_num +=1
-    elif (select_pos == 3 and mid_num < mid_limit):
-        selection.append((players_df.at[k, 'web_name'], 'mid'))
-        mid_num +=1
-    elif (select_pos == 4 and fwd_num < fwd_limit):
-        selection.append((players_df.at[k, 'web_name'], 'fwd'))
-        fwd_num +=1
+    if (select_pos == 1):
+        if (gk_num < gk_limit):
+            selection.append((players_df.at[k, 'web_name'], 'gk'))
+            gks.append((players_df.at[k, 'web_name'], k))
+            gk_num +=1
+            team_cost+= int(players_df.at[k, 'now_cost'])
+        else:
+            for m in range(2):
+                if(validswap(int(players_df.at[k, 'now_cost']), int(players_df.at[gks[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[gks[m][1]]):
+                    new_selection = [n for n in selection if n[0] == gks[m][0]]
+                    new_gks = [n for n in gks if n[0] == gks[m][0]]
+                    
+                    new_selection.append((players_df.at[k, 'web_name'], 'gk'))
+                    new_gks.append((players_df.at[k, 'web_name'], k))
+                    
+                    team_cost -= int(players_df.at[gks[m][1], 'now_cost'])
+                    team_cost += int(players_df.at[k, 'now_cost'])
+                    
+                    selection = new_selection
+                    gks = new_gks
+                    break
+                
+    elif (select_pos == 2):
+        if (def_num < def_limit):
+            selection.append((players_df.at[k, 'web_name'], 'def'))
+            defs.append((players_df.at[k, 'web_name'], k))
+            def_num +=1
+            team_cost+= int(players_df.at[k, 'now_cost'])
+            
+    elif (select_pos == 3):
+        if(mid_num < mid_limit):
+            selection.append((players_df.at[k, 'web_name'], 'mid'))
+            mids.append((players_df.at[k, 'web_name'], k))
+            mid_num +=1
+            team_cost+= int(players_df.at[k, 'now_cost'])
+            
+    elif (select_pos == 4):
+        if(fwd_num < fwd_limit):
+            selection.append((players_df.at[k, 'web_name'], 'fwd'))
+            fwds.append((players_df.at[k, 'web_name'], k))
+            fwd_num +=1
+            team_cost+= int(players_df.at[k, 'now_cost'])
         
 # Print selections
 line1 = ''
 line2 = ''
 line3 = ''
 line4 = ''
-for l in range(15):
+print(len(selection))
+print(len(gks))
+print(len(mids))
+for l in range(len(selection)):
     if(selection[l][1] == 'gk'):
         line1 += selection[l][0] + ' '
     elif(selection[l][1] == 'def'):
@@ -151,6 +196,7 @@ print (line1)
 print (line2)
 print (line3)
 print (line4)
+print ('Value = ' + str(team_cost/10) + 'm')
     
 '''
     print(selection[l][0], end='')
