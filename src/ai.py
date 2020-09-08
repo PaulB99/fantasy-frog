@@ -247,10 +247,13 @@ print ('\n')
 # DETERMINE STARTING TEAM
 
 best_gk = gks[0]
+bench_gk = gks[1]
 if (preds_next[gks[1][1]] > preds_next[gks[0][1]]):
-    best_gk = gks[1][0]
+    best_gk = gks[1]
+    bench_gk = gks[0]
 
 starting_team = []
+bench = []
 for d in defs:
     starting_team.append(d)  # Defenders will always fit
 for m in mids:
@@ -261,6 +264,7 @@ for f in fwds:
         if(preds_next[s[1]] < preds_next[lowest[1]]):
             lowest = s
     if (preds_next[f[1]] > preds_next[lowest[1]]):
+        bench.append(lowest)
         new_team = [n for n in starting_team if n[0] != lowest[0]]
         new_team.append(f)
         starting_team = new_team
@@ -276,9 +280,16 @@ for pos in range(len(starting_team)):   # Apply (C) for captain
         lst[0] += ' (C) '
         s = tuple(lst)
         starting_team[pos] = s
+        
+# Print team
+print('Starting 11 : \n')
 print(best_gk[0])
 for s in starting_team:
     print(s[0])
+print('Bench : \n')
+print(bench_gk[0], end='   ') # Bench 
+for b in bench:
+    print(b[0], end='   ')
     
     
 '''
