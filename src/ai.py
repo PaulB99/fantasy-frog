@@ -9,7 +9,7 @@ import json
 import requests
 import pandas as pd
 import numpy as np
-import csv
+from scipy.optimize import linprog
 
 total = 505
 gameweek = 1
@@ -104,6 +104,40 @@ for i in range(1, total+1):
         preds_5.append(pred_5)
         preds_next.append(pred_next)
             
+
+gk_limit = 2  # Amount of players per position
+gk_num = 0
+def_limit = 5
+def_num = 0
+mid_limit = 5
+mid_num = 0
+fwd_limit = 3
+fwd_num = 0
+
+selection = []
+    
+# MAKE SELECTIONS
+for k in range(total):
+    select_pos = players_df.at[k, 'element_type']  # 1=gk, 2=def, 3=mid, 4=fwd
+    if (select_pos == 1 and gk_num < gk_limit):
+        selection.append(players_df.at[k, 'web_name'])
+        gk_num+=1
+    elif (select_pos == 2 and def_num < def_limit):
+        selection.append(players_df.at[k, 'web_name'])
+        def_num+=1
+    elif (select_pos == 3 and mid_num < mid_limit):
+        selection.append(players_df.at[k, 'web_name'])
+        mid_num+=1
+    elif (select_pos == 4 and fwd_num < fwd_limit):
+        selection.append(players_df.at[k, 'web_name'])
+        fwd_num+=1
+        
+# Print selections
+for l in range(15):
+    print(selection[l] + ' - '),
+    if(l == 1 or l == 6 or l == 11):
+        print('')
+    
         
         '''  
 form = 0
