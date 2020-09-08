@@ -270,7 +270,12 @@ captain = (best_gk)
 for s in starting_team:
     if (preds_next[s[1]] > preds_next[captain[1]]):
         captain = s
-print(captain)
+for pos in range(len(starting_team)):   # Apply (C) for captain
+    if (starting_team[pos][0] == captain [0]):
+        lst = list(starting_team[pos])
+        lst[0] += ' (C) '
+        s = tuple(lst)
+        starting_team[pos] = s
 print(best_gk[0])
 for s in starting_team:
     print(s[0])
