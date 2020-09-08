@@ -9,6 +9,9 @@ import requests
 import pandas as pd
 import json
 
+# Total players
+total = 505
+
 def get(url):
     response = requests.get(url)
     return json.loads(response.content)
@@ -43,7 +46,7 @@ with open('../data/events_data.json', 'w', encoding='utf-8') as f:
     json.dump(events, f, ensure_ascii=False, indent=4)
     
 # Import detailed info
-for i in range(506):
+for i in range(1, total+1):
     info = detailedinfo(i)
     path = '../data/players/' + str(i) + '.json'
     with open(path, 'w', encoding='utf-8') as f:
