@@ -16,6 +16,12 @@ def validswap(x, y, value):
         return True
     else:
         return False
+    
+def get_team(x):
+    for t in range(len(teams_df)):
+        if teams_df.at[t, 'id'] == x:
+            y = teams_df.at[t, 'short_name']
+    return y
 
 total = 505
 gameweek = 1
@@ -137,9 +143,10 @@ fwds = []
 # MAKE SELECTIONS
 for k in range(total):
     select_pos = players_df.at[k, 'element_type']  # 1=gk, 2=def, 3=mid, 4=fwd
+    name = players_df.at[k, 'web_name'] + ' (' + get_team(players_df.at[k, 'team']) + ')'
     if (select_pos == 1):
         if (gk_num < gk_limit):
-            gks.append((players_df.at[k, 'web_name'], k))
+            gks.append((name, k))
             gk_num +=1
             team_cost+= int(players_df.at[k, 'now_cost'])
         else:
@@ -147,7 +154,7 @@ for k in range(total):
                 if(validswap(int(players_df.at[k, 'now_cost']), int(players_df.at[gks[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[gks[m][1]]):
                     new_gks = [n for n in gks if n[0] != gks[m][0]]
                     
-                    new_gks.append((players_df.at[k, 'web_name'], k))
+                    new_gks.append((name, k))
                     
                     team_cost -= int(players_df.at[gks[m][1], 'now_cost'])
                     team_cost += int(players_df.at[k, 'now_cost'])
@@ -157,7 +164,7 @@ for k in range(total):
                 
     elif (select_pos == 2):
         if (def_num < def_limit):
-            defs.append((players_df.at[k, 'web_name'], k))
+            defs.append((name, k))
             def_num +=1
             team_cost+= int(players_df.at[k, 'now_cost'])
         else:
@@ -165,7 +172,7 @@ for k in range(total):
                 if(validswap(int(players_df.at[k, 'now_cost']), int(players_df.at[defs[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[defs[m][1]]):
                     new_defs = [n for n in defs if n[0] != defs[m][0]]
                     
-                    new_defs.append((players_df.at[k, 'web_name'], k))
+                    new_defs.append((name, k))
                     
                     team_cost -= int(players_df.at[defs[m][1], 'now_cost'])
                     team_cost += int(players_df.at[k, 'now_cost'])
@@ -175,7 +182,7 @@ for k in range(total):
             
     elif (select_pos == 3):
         if(mid_num < mid_limit):
-            mids.append((players_df.at[k, 'web_name'], k))
+            mids.append((name, k))
             mid_num +=1
             team_cost+= int(players_df.at[k, 'now_cost'])
         else:
@@ -183,7 +190,7 @@ for k in range(total):
                 if(validswap(int(players_df.at[k, 'now_cost']), int(players_df.at[mids[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[mids[m][1]]):
                     new_mids = [n for n in mids if n[0] != mids[m][0]]
                     
-                    new_mids.append((players_df.at[k, 'web_name'], k))
+                    new_mids.append((name, k))
                     
                     team_cost -= int(players_df.at[mids[m][1], 'now_cost'])
                     team_cost += int(players_df.at[k, 'now_cost'])
@@ -193,7 +200,7 @@ for k in range(total):
             
     elif (select_pos == 4):
         if(fwd_num < fwd_limit):
-            fwds.append((players_df.at[k, 'web_name'], k))
+            fwds.append((name, k))
             fwd_num +=1
             team_cost+= int(players_df.at[k, 'now_cost'])
         else:
@@ -201,7 +208,7 @@ for k in range(total):
                 if(validswap(int(players_df.at[k, 'now_cost']), int(players_df.at[fwds[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[fwds[m][1]]):
                     new_fwds = [n for n in fwds if n[0] != fwds[m][0]]
                     
-                    new_fwds.append((players_df.at[k, 'web_name'], k))
+                    new_fwds.append((name, k))
                     
                     team_cost -= int(players_df.at[fwds[m][1], 'now_cost'])
                     team_cost += int(players_df.at[k, 'now_cost'])
