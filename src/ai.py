@@ -10,6 +10,7 @@ import requests
 import pandas as pd
 import numpy as np
 import math
+import csv
 
 def validswap(x, y, value):
     if(value + x - y <= budget):
@@ -276,6 +277,7 @@ for f in fwds:
     for s in starting_team:  # Find lowest scoring player
         if(preds_next[s[1]] < preds_next[lowest[1]]):
             lowest = s
+    print(lowest)
     if (preds_next[f[1]] > preds_next[lowest[1]]):
         bench.append(lowest)
         new_team = [n for n in starting_team if n[0] != lowest[0]]
@@ -306,24 +308,17 @@ print('Bench : \n')
 print(bench_gk[0], end='   ') # Bench 
 for b in bench:
     print(b[0], end='   ')
-    
-    
-'''
-    print(selection[l][0], end='')
-    if(l == 1 or l == 6 or l == 11):
-        print('')
-    else:
-        print(' - ', end='') '''
-    
-        
-'''  
-form = 0
-if (defender):
-    strength_att = 0
-if(attacker):
-    strength_def = 0
 
-strength_modifier = 
+# Save team to file  
+'''with open('../data/team/team.csv', mode='w') as team_file:
+    writer = csv.writer(team_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    writer.writerow(best_gk)
+    for t in starting_team:
+        writer.writerow(t)
+    writer.writerow(bench_gk)
+    for b in bench:
+        writer.writerow(b) '''
+        
 '''
 # FIRST TIME
 
@@ -347,4 +342,4 @@ strength_modifier =
 
 # Make transfers 
 
-# Confirm team
+# Confirm team '''
