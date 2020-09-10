@@ -33,4 +33,22 @@ Second team:
     Bench :
 
     Fabianski   Stephens   Barnes   Antonio
+    
+    
+
+After some tinkering around, the issue turned out to be that the players were not in order. After fixing that I came across a new yet expected problem: more than 3 players from one team were selected.
+
+Third team:
+
+                      Alisson 
+
+    Keane   Pereira   Thomas   van Djik   Garcia
+
+          Maddison   Milner   Salah (C)
+
+                  Vardy   Martial
+                  
+    Bench:
+    
+    Henderson   Wilson   Anderson   Sharp
    
