@@ -58,7 +58,8 @@ for x in range(20):
 average = t/40
 print(average)
 
-for i in range(1, total+1): #total+1
+for a in range(1, 2 * (total+1)): #total+1
+    i = (a % (total)) + 1 
     path = '../data/players/' + str(i) + '.json'
     with open(path) as json_file:
         player_data = json.load(json_file)
@@ -114,11 +115,11 @@ for i in range(1, total+1): #total+1
         # MAKE PREDICTIONS
         last_season_weight = math.log10(11-gameweek)  # Weight of past season should decrease over time
         if(form == 0.0): # if no form
-            pred_5 = (ppg  * (diffi_5/average))
-            pred_next = (ppg * (diffi_next/average))
+            pred_5 = (ppg  * ((diffi_5/average) ** math.e))
+            pred_next = (ppg * ((diffi_next/average) ** math.e))
         else:
-            pred_5 = ((ppg + form) /2 * (diffi_5/average))
-            pred_next = ((ppg + form) /2 * (diffi_next/average))
+            pred_5 = ((ppg + form) /2 * ((diffi_5/average) ** math.e))
+            pred_next = ((ppg + form) /2 * ((diffi_next/average) ** math.e))
         '''
         if(form == 0.0): # if no form
             pred_5 = (((ppg + (last_total / 38)) /2)  * (diffi_5/average))
