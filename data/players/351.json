@@ -11,7 +11,7 @@
             "finished": false,
             "minutes": 0,
             "provisional_start_time": false,
-            "kickoff_time": "2020-09-14T19:00:00Z",
+            "kickoff_time": "2020-09-14T17:00:00Z",
             "event_name": "Gameweek 1",
             "is_home": true,
             "difficulty": 3
@@ -27,7 +27,7 @@
             "finished": false,
             "minutes": 0,
             "provisional_start_time": false,
-            "kickoff_time": "2020-09-20T13:00:00Z",
+            "kickoff_time": "2020-09-21T17:00:00Z",
             "event_name": "Gameweek 2",
             "is_home": false,
             "difficulty": 2

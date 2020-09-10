@@ -24,9 +24,11 @@ def get_team(x):
             y = teams_df.at[t, 'short_name']
     return y
 
+# MANUAL VARIABLES
 total = 505
 gameweek = 1
 budget = 1000
+stats = True
 
 # Load in data
 with open('../data/players_data.json') as json_file:
@@ -39,9 +41,14 @@ with open('../data/events_data.json') as json_file:
     events = json.load(json_file)
 
 # Create pandas dataframes
-players_df = pd.DataFrame(players)
+first_players_df = pd.DataFrame(players)
 teams_df = pd.DataFrame(teams)
 events_df = pd.DataFrame(events)
+
+# Sort players dataframe by id
+players_df = first_players_df.sort_values('id')
+
+#print(players_df.at[305, 'web_name'])
 
 # Drop irrelevant columns
 pred_df = pd.DataFrame()
@@ -58,11 +65,12 @@ for x in range(20):
 average = t/40
 print(average)
 
-for a in range(1, 2 * (total+1)): #total+1
-    i = (a % (total)) + 1 
+for i in range(1, total+1): #total+1  # i is meant to be player id
+    #i = (a % (total)) + 1 
     path = '../data/players/' + str(i) + '.json'
     with open(path) as json_file:
         player_data = json.load(json_file)
+        #print(players_df.at[i-1, 'id'])
         position = players_df.at[i-1, 'element_type']  # 1=gk, 2=def, 3=mid, 4=fwd
         
         # Determine difficulty of upcoming fixtures
@@ -114,6 +122,7 @@ for a in range(1, 2 * (total+1)): #total+1
         
         # MAKE PREDICTIONS
         last_season_weight = math.log10(11-gameweek)  # Weight of past season should decrease over time
+        '''
         if(form == 0.0): # if no form
             pred_5 = (ppg  * ((diffi_5/average) ** math.e))
             pred_next = (ppg * ((diffi_next/average) ** math.e))
@@ -122,12 +131,11 @@ for a in range(1, 2 * (total+1)): #total+1
             pred_next = ((ppg + form) /2 * ((diffi_next/average) ** math.e))
         '''
         if(form == 0.0): # if no form
-            pred_5 = (((ppg + (last_total / 38)) /2)  * (diffi_5/average))
-            pred_next = (((ppg + (last_total / 38)) /2) * (diffi_next/average))
+            pred_5 = (((ppg + (last_total / 38)) /2)  * ((diffi_5/average) ** math.e))
+            pred_next = (((ppg + (last_total / 38)) /2) * ((diffi_next/average) ** math.e))
         else:
-            pred_5 = ((ppg + ((last_total / 38) * last_season_weight) + (form * (1- last_season_weight))) /3 * (diffi_5/average))
-            pred_next = ((ppg + ((last_total / 38) * last_season_weight) + (form * (1- last_season_weight))) /3 * (diffi_next/average))
-            '''
+            pred_5 = ((ppg + ((last_total / 38) * last_season_weight) + (form * (1- last_season_weight))) /3 * ((diffi_5/average) ** math.e))
+            pred_next = ((ppg + ((last_total / 38) * last_season_weight) + (form * (1- last_season_weight))) /3 * ((diffi_next/average) ** math.e))
         # Add to array
         preds_5.append(pred_5)
         preds_next.append(pred_next)
@@ -258,13 +266,26 @@ for l in range(len(fwds)):
     print(fwds[l][0] + '   ', end='')
 print('\n')
 
-print ('Value = ' + str(team_cost/10) + 'm')
+if stats:
+    print ('Value = ' + str(team_cost/10) + 'm')
 
-print ('Predicted score this week = ' + str(pred_week))
+    print ('Predicted score this week = ' + str(pred_week))
 
-print ('Predicted score for next 5 weeks = ' + str(pred_5))
+    print ('Predicted score for next 5 weeks = ' + str(pred_5))
 
-print ('\n')
+    print ('\n')
+
+# Print predictions per player 
+if (stats == True):
+    for g in gks:
+        print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]))
+    for g in defs:
+        print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]))
+    for g in mids:
+        print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]))
+    for g in fwds:
+        print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]))
+
 
 # DETERMINE STARTING TEAM
 
@@ -315,7 +336,7 @@ print('Bench : \n')
 print(bench_gk[0], end='   ') # Bench 
 for b in bench:
     print(b[0], end='   ')
-
+    
 # Save team to file  
 '''with open('../data/team/team.csv', mode='w') as team_file:
     writer = csv.writer(team_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
