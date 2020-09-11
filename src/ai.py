@@ -12,17 +12,27 @@ import numpy as np
 import math
 import csv
 
+# Checks if a swap can be made in budget
 def validswap(x, y, value):
     if(value + x - y <= budget):
         return True
     else:
         return False
-    
+
+# Gets a 3 letter team abbreviation 
 def get_team(x):
     for t in range(len(teams_df)):
         if teams_df.at[t, 'id'] == x:
             y = teams_df.at[t, 'short_name']
     return y
+
+# Gets the percentage chance of a player to play the next match
+def chance_to_play(i):
+    chance = players_df.at[i, 'chance_of_playing_next_round']
+    if math.isnan(chance):
+        return 1
+    else:
+        return (chance/100)
 
 # MANUAL VARIABLES
 total = 514
@@ -47,8 +57,6 @@ events_df = pd.DataFrame(events)
 
 # Sort players dataframe by id
 players_df = first_players_df.sort_values('id')
-print(players_df.at[258, 'web_name'])
-print(players_df.at[241, 'web_name'])
 
 preds_5 = [] # Predictions of points per player in next 5 matches
 preds_next = [] # Predictions of points in next match
@@ -127,11 +135,11 @@ for i in range(1, total+1): #total+1  # i is meant to be player id
             pred_next = ((ppg + form) /2 * ((diffi_next/average) ** math.e))
         '''
         if(form == 0.0): # if no form
-            pred_5 = (((ppg + (last_total / 38)) /2)  * ((diffi_5/average) ** math.e))
-            pred_next = (((ppg + (last_total / 38)) /2) * ((diffi_next/average) ** math.e))
+            pred_5 = (((ppg + (last_total / 38)) /2)  * ((diffi_5/average) ** math.e)) * chance_to_play(i-1)
+            pred_next = (((ppg + (last_total / 38)) /2) * ((diffi_next/average) ** math.e))  * chance_to_play(i-1)
         else:
-            pred_5 = ((ppg + ((last_total / 38) * last_season_weight) + (form * (1- last_season_weight))) /3 * ((diffi_5/average) ** math.e))
-            pred_next = ((ppg + ((last_total / 38) * last_season_weight) + (form * (1- last_season_weight))) /3 * ((diffi_next/average) ** math.e))
+            pred_5 = ((ppg + ((last_total / 38) * last_season_weight) + (form * (1- last_season_weight))) /3 * ((diffi_5/average) ** math.e))  * chance_to_play(i-1)
+            pred_next = ((ppg + ((last_total / 38) * last_season_weight) + (form * (1- last_season_weight))) /3 * ((diffi_next/average) ** math.e))  * chance_to_play(i-1)
         # Add to array
         preds_5.append(pred_5)
         preds_next.append(pred_next)
