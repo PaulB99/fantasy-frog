@@ -33,9 +33,221 @@ def chance_to_play(i):
         return 1
     else:
         return (chance/100)
+    
+def create_team():
+    gk_limit = 2  # Amount of players per position
+    gk_num = 0
+    def_limit = 5
+    def_num = 0
+    mid_limit = 5
+    mid_num = 0 
+    fwd_limit = 3
+    fwd_num = 0
+    
+    team_cost = 0
+    
+    selection = []
+    gks = []
+    defs = []
+    mids = []
+    fwds = []
+        
+    # MAKE SELECTIONS
+    for k in range(total):
+        select_pos = players_df.at[k, 'element_type']  # 1=gk, 2=def, 3=mid, 4=fwd
+        name = players_df.at[k, 'web_name'] + ' (' + get_team(players_df.at[k, 'team']) + ')'
+        if (select_pos == 1):
+            if (gk_num < gk_limit):
+                gks.append((name, k))
+                gk_num +=1
+                team_cost+= int(players_df.at[k, 'now_cost'])
+            else:
+                for m in range(2):
+                    if(validswap(int(players_df.at[k, 'now_cost']), int(players_df.at[gks[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[gks[m][1]]):
+                        new_gks = [n for n in gks if n[0] != gks[m][0]]
+                        
+                        new_gks.append((name, k))
+                        
+                        team_cost -= int(players_df.at[gks[m][1], 'now_cost'])
+                        team_cost += int(players_df.at[k, 'now_cost'])
+                        
+                        gks = new_gks
+                        break
+                    
+        elif (select_pos == 2):
+            if (def_num < def_limit):
+                defs.append((name, k))
+                def_num +=1
+                team_cost+= int(players_df.at[k, 'now_cost'])
+            else:
+                for m in range(5):
+                    if(validswap(int(players_df.at[k, 'now_cost']), int(players_df.at[defs[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[defs[m][1]]):
+                        new_defs = [n for n in defs if n[0] != defs[m][0]]
+                        
+                        new_defs.append((name, k))
+                        
+                        team_cost -= int(players_df.at[defs[m][1], 'now_cost'])
+                        team_cost += int(players_df.at[k, 'now_cost'])
+                        
+                        defs = new_defs
+                        break
+                
+        elif (select_pos == 3):
+            if(mid_num < mid_limit):
+                mids.append((name, k))
+                mid_num +=1
+                team_cost+= int(players_df.at[k, 'now_cost'])
+            else:
+                for m in range(5):
+                    if(validswap(int(players_df.at[k, 'now_cost']), int(players_df.at[mids[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[mids[m][1]]):
+                        new_mids = [n for n in mids if n[0] != mids[m][0]]
+                        
+                        new_mids.append((name, k))
+                        
+                        team_cost -= int(players_df.at[mids[m][1], 'now_cost'])
+                        team_cost += int(players_df.at[k, 'now_cost'])
+                        
+                        mids = new_mids
+                        break
+                
+        elif (select_pos == 4):
+            if(fwd_num < fwd_limit):
+                fwds.append((name, k))
+                fwd_num +=1
+                team_cost+= int(players_df.at[k, 'now_cost'])
+            else:
+                for m in range(3):
+                    if(validswap(int(players_df.at[k, 'now_cost']), int(players_df.at[fwds[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[fwds[m][1]]):
+                        new_fwds = [n for n in fwds if n[0] != fwds[m][0]]
+                        
+                        new_fwds.append((name, k))
+                        
+                        team_cost -= int(players_df.at[fwds[m][1], 'now_cost'])
+                        team_cost += int(players_df.at[k, 'now_cost'])
+                        
+                        fwds = new_fwds
+                        break
+        
+    # Find predicted score for this week and next weeks
+    pred_week = 0
+    pred_5 = 0
+    for g in gks:
+        pred_week += preds_next[g[1]]
+        pred_5 += preds_5[g[1]]
+    for d in defs:
+        pred_week += preds_next[d[1]]
+        pred_5 += preds_5[d[1]]
+    for m in mids:
+        pred_week += preds_next[m[1]]
+        pred_5 += preds_5[m[1]]
+    for f in fwds:
+        pred_week += preds_next[f[1]]
+        pred_5 += preds_5[f[1]]
+    
+    # Print selections
+    for l in range(len(gks)):
+        print(gks[l][0] + '   ', end='')
+    print('\n')
+    
+    for l in range(len(defs)):
+        print(defs[l][0] + '   ', end='')
+    print('\n')
+    
+    for l in range(len(mids)):
+        print(mids[l][0] + '   ', end='')
+    print('\n')
+    
+    for l in range(len(fwds)):
+        print(fwds[l][0] + '   ', end='')
+    print('\n')
+    
+    if stats:
+        print ('Value = ' + str(team_cost/10) + 'm')
+    
+        print ('Predicted score this week = ' + str(pred_week))
+    
+        print ('Predicted score for next 5 weeks = ' + str(pred_5))
+    
+        print ('\n')
+    
+    # Print predictions per player 
+    if (stats == True):
+        for g in gks:
+            print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]) + ' ' + str(players_df.at[g[1], 'id']))
+        for g in defs:
+            print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]) + ' ' + str(players_df.at[g[1], 'id']))
+        for g in mids:
+            print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]) + ' ' + str(players_df.at[g[1], 'id']))
+        for g in fwds:
+            print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]) + ' ' + str(players_df.at[g[1], 'id']))
+    
+    
+    # DETERMINE STARTING TEAM
+    
+    best_gk = gks[0]
+    bench_gk = gks[1]
+    if (preds_next[gks[1][1]] > preds_next[gks[0][1]]):
+        best_gk = gks[1]
+        bench_gk = gks[0]
+    
+    starting_team = []
+    bench = []
+    for d in defs:
+        starting_team.append(d)  # Defenders will always fit
+    for m in mids:
+        starting_team.append(m)  # Mids will just about fit
+    for f in fwds:
+        lowest = starting_team[0]
+        for s in starting_team:  # Find lowest scoring player
+            if(preds_next[s[1]] < preds_next[lowest[1]]):
+                lowest = s
+        if (preds_next[f[1]] > preds_next[lowest[1]]):
+            bench.append(lowest)
+            new_team = [n for n in starting_team if n[0] != lowest[0]]
+            new_team.append(f)
+            starting_team = new_team
+    
+    # Find captain
+    captain = (best_gk)
+    for s in starting_team:
+        if (preds_next[s[1]] > preds_next[captain[1]]):
+            captain = s
+    for pos in range(len(starting_team)):   # Apply (C) for captain
+        if (starting_team[pos][0] == captain [0]):
+            lst = list(starting_team[pos])
+            lst[0] += ' (C) '
+            s = tuple(lst)
+            starting_team[pos] = s
+            
+    # Order bench
+    bench.sort(reverse = True, key = lambda b: preds_next[b[1]])
+            
+    # Print team
+    print('Starting 11 : \n')
+    print(best_gk[0])
+    for s in starting_team:
+        print(s[0])
+    print('Bench : \n')
+    print(bench_gk[0], end='   ') # Bench 
+    for b in bench:
+        print(b[0], end='   ')
+        
+    # Save team to file  
+    with open('../data/team/team' + str(gameweek) + '.csv', mode='w') as team_file:
+        writer = csv.writer(team_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        writer.writerow(best_gk)
+        for t in starting_team:
+            writer.writerow(t)
+        writer.writerow(bench_gk)
+        for b in bench:
+            writer.writerow(b) 
 
+#
+# PREDICT
+# 
+            
 # MANUAL VARIABLES
-total = 514
+total = 521
 gameweek = 1
 budget = 1000
 stats = True
@@ -143,215 +355,16 @@ for i in range(1, total+1): #total+1  # i is meant to be player id
         # Add to array
         preds_5.append(pred_5)
         preds_next.append(pred_next)
-            
-gk_limit = 2  # Amount of players per position
-gk_num = 0
-def_limit = 5
-def_num = 0
-mid_limit = 5
-mid_num = 0
-fwd_limit = 3
-fwd_num = 0
-
-team_cost = 0
-
-selection = []
-gks = []
-defs = []
-mids = []
-fwds = []
-    
-# MAKE SELECTIONS
-for k in range(total):
-    select_pos = players_df.at[k, 'element_type']  # 1=gk, 2=def, 3=mid, 4=fwd
-    name = players_df.at[k, 'web_name'] + ' (' + get_team(players_df.at[k, 'team']) + ')'
-    if (select_pos == 1):
-        if (gk_num < gk_limit):
-            gks.append((name, k))
-            gk_num +=1
-            team_cost+= int(players_df.at[k, 'now_cost'])
-        else:
-            for m in range(2):
-                if(validswap(int(players_df.at[k, 'now_cost']), int(players_df.at[gks[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[gks[m][1]]):
-                    new_gks = [n for n in gks if n[0] != gks[m][0]]
-                    
-                    new_gks.append((name, k))
-                    
-                    team_cost -= int(players_df.at[gks[m][1], 'now_cost'])
-                    team_cost += int(players_df.at[k, 'now_cost'])
-                    
-                    gks = new_gks
-                    break
+        
+create_team()
                 
-    elif (select_pos == 2):
-        if (def_num < def_limit):
-            defs.append((name, k))
-            def_num +=1
-            team_cost+= int(players_df.at[k, 'now_cost'])
-        else:
-            for m in range(5):
-                if(validswap(int(players_df.at[k, 'now_cost']), int(players_df.at[defs[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[defs[m][1]]):
-                    new_defs = [n for n in defs if n[0] != defs[m][0]]
-                    
-                    new_defs.append((name, k))
-                    
-                    team_cost -= int(players_df.at[defs[m][1], 'now_cost'])
-                    team_cost += int(players_df.at[k, 'now_cost'])
-                    
-                    defs = new_defs
-                    break
-            
-    elif (select_pos == 3):
-        if(mid_num < mid_limit):
-            mids.append((name, k))
-            mid_num +=1
-            team_cost+= int(players_df.at[k, 'now_cost'])
-        else:
-            for m in range(5):
-                if(validswap(int(players_df.at[k, 'now_cost']), int(players_df.at[mids[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[mids[m][1]]):
-                    new_mids = [n for n in mids if n[0] != mids[m][0]]
-                    
-                    new_mids.append((name, k))
-                    
-                    team_cost -= int(players_df.at[mids[m][1], 'now_cost'])
-                    team_cost += int(players_df.at[k, 'now_cost'])
-                    
-                    mids = new_mids
-                    break
-            
-    elif (select_pos == 4):
-        if(fwd_num < fwd_limit):
-            fwds.append((name, k))
-            fwd_num +=1
-            team_cost+= int(players_df.at[k, 'now_cost'])
-        else:
-            for m in range(3):
-                if(validswap(int(players_df.at[k, 'now_cost']), int(players_df.at[fwds[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[fwds[m][1]]):
-                    new_fwds = [n for n in fwds if n[0] != fwds[m][0]]
-                    
-                    new_fwds.append((name, k))
-                    
-                    team_cost -= int(players_df.at[fwds[m][1], 'now_cost'])
-                    team_cost += int(players_df.at[k, 'now_cost'])
-                    
-                    fwds = new_fwds
-                    break
+# Edit team
+def edit_team(path):
+    new_path = path[:-1] + str(gameweek)
+    csvpath = path +'.csv'
     
-# Find predicted score for this week and next weeks
-pred_week = 0
-pred_5 = 0
-for g in gks:
-    pred_week += preds_next[g[1]]
-    pred_5 += preds_5[g[1]]
-for d in defs:
-    pred_week += preds_next[d[1]]
-    pred_5 += preds_5[d[1]]
-for m in mids:
-    pred_week += preds_next[m[1]]
-    pred_5 += preds_5[m[1]]
-for f in fwds:
-    pred_week += preds_next[f[1]]
-    pred_5 += preds_5[f[1]]
-
-# Print selections
-for l in range(len(gks)):
-    print(gks[l][0] + '   ', end='')
-print('\n')
-
-for l in range(len(defs)):
-    print(defs[l][0] + '   ', end='')
-print('\n')
-
-for l in range(len(mids)):
-    print(mids[l][0] + '   ', end='')
-print('\n')
-
-for l in range(len(fwds)):
-    print(fwds[l][0] + '   ', end='')
-print('\n')
-
-if stats:
-    print ('Value = ' + str(team_cost/10) + 'm')
-
-    print ('Predicted score this week = ' + str(pred_week))
-
-    print ('Predicted score for next 5 weeks = ' + str(pred_5))
-
-    print ('\n')
-
-# Print predictions per player 
-if (stats == True):
-    for g in gks:
-        print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]) + ' ' + str(players_df.at[g[1], 'id']))
-    for g in defs:
-        print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]) + ' ' + str(players_df.at[g[1], 'id']))
-    for g in mids:
-        print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]) + ' ' + str(players_df.at[g[1], 'id']))
-    for g in fwds:
-        print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]) + ' ' + str(players_df.at[g[1], 'id']))
-
-
-# DETERMINE STARTING TEAM
-
-best_gk = gks[0]
-bench_gk = gks[1]
-if (preds_next[gks[1][1]] > preds_next[gks[0][1]]):
-    best_gk = gks[1]
-    bench_gk = gks[0]
-
-starting_team = []
-bench = []
-for d in defs:
-    starting_team.append(d)  # Defenders will always fit
-for m in mids:
-    starting_team.append(m)  # Mids will just about fit
-for f in fwds:
-    lowest = starting_team[0]
-    for s in starting_team:  # Find lowest scoring player
-        if(preds_next[s[1]] < preds_next[lowest[1]]):
-            lowest = s
-    if (preds_next[f[1]] > preds_next[lowest[1]]):
-        bench.append(lowest)
-        new_team = [n for n in starting_team if n[0] != lowest[0]]
-        new_team.append(f)
-        starting_team = new_team
-
-# Find captain
-captain = (best_gk)
-for s in starting_team:
-    if (preds_next[s[1]] > preds_next[captain[1]]):
-        captain = s
-for pos in range(len(starting_team)):   # Apply (C) for captain
-    if (starting_team[pos][0] == captain [0]):
-        lst = list(starting_team[pos])
-        lst[0] += ' (C) '
-        s = tuple(lst)
-        starting_team[pos] = s
         
-# Order bench
-bench.sort(reverse = True, key = lambda b: preds_next[b[1]])
-        
-# Print team
-print('Starting 11 : \n')
-print(best_gk[0])
-for s in starting_team:
-    print(s[0])
-print('Bench : \n')
-print(bench_gk[0], end='   ') # Bench 
-for b in bench:
-    print(b[0], end='   ')
-    
-# Save team to file  
-'''with open('../data/team/team.csv', mode='w') as team_file:
-    writer = csv.writer(team_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-    writer.writerow(best_gk)
-    for t in starting_team:
-        writer.writerow(t)
-    writer.writerow(bench_gk)
-    for b in bench:
-        writer.writerow(b) '''
-        
-'''
+
 # FIRST TIME
 
 # Import datasets
