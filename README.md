@@ -69,3 +69,18 @@ Fourth team:
     Dubravka   Chilwell   Perez   Taylor
 
 
+After more tinkering 
+
+Fifth team:
+
+                Schmichel
+
+    Van Djik   Stevens   Egan   Doherty
+
+       Willian   Pulisic   Salah (C)
+
+        Abraham   Ayew   Antonio
+
+    Bench:
+
+    Guaita   Mount   Perez   Thomas
