@@ -25,7 +25,7 @@ def get_team(x):
     return y
 
 # MANUAL VARIABLES
-total = 505
+total = 514
 gameweek = 1
 budget = 1000
 stats = True
@@ -47,12 +47,8 @@ events_df = pd.DataFrame(events)
 
 # Sort players dataframe by id
 players_df = first_players_df.sort_values('id')
-
-#print(players_df.at[305, 'web_name'])
-
-# Drop irrelevant columns
-pred_df = pd.DataFrame()
-pred_df[['web_name', 'id', 'total_points', 'form', 'team', 'cost']] = players_df[['web_name', 'id', 'total_points', 'form', 'team', 'now_cost']]
+print(players_df.at[258, 'web_name'])
+print(players_df.at[241, 'web_name'])
 
 preds_5 = [] # Predictions of points per player in next 5 matches
 preds_next = [] # Predictions of points in next match
@@ -66,11 +62,11 @@ average = t/40
 print(average)
 
 for i in range(1, total+1): #total+1  # i is meant to be player id
-    #i = (a % (total)) + 1 
-    path = '../data/players/' + str(i) + '.json'
+    p_id = players_df.at[i-1, 'id']
+    path = '../data/players/' + str(p_id) + '.json'
     with open(path) as json_file:
         player_data = json.load(json_file)
-        #print(players_df.at[i-1, 'id'])
+        #print(players_df.at[i-1, 'id'] - players_df.at[i, 'id'])
         position = players_df.at[i-1, 'element_type']  # 1=gk, 2=def, 3=mid, 4=fwd
         
         # Determine difficulty of upcoming fixtures
@@ -278,13 +274,13 @@ if stats:
 # Print predictions per player 
 if (stats == True):
     for g in gks:
-        print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]))
+        print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]) + ' ' + str(players_df.at[g[1], 'id']))
     for g in defs:
-        print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]))
+        print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]) + ' ' + str(players_df.at[g[1], 'id']))
     for g in mids:
-        print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]))
+        print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]) + ' ' + str(players_df.at[g[1], 'id']))
     for g in fwds:
-        print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]))
+        print(str(preds_next[g[1]]) + ' ' + g[0] + ' ' + str(g[1]) + ' ' + str(players_df.at[g[1], 'id']))
 
 
 # DETERMINE STARTING TEAM
