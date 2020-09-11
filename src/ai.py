@@ -34,6 +34,21 @@ def chance_to_play(i):
     else:
         return (chance/100)
     
+# Checks if the player has changed position since last season and if so returns the modifier
+def changed_position(x):
+    player_id = players_df.at[x, 'id']
+    for c in range(len(changes_df)):
+        if (player_id == changes_df.at[c, 'id']):
+            change = changes_df.at[c, 'change']
+            if(change == 'f'):
+                return pos_forward_modifier
+            elif(change == 'b'):
+                return pos_back_modifier
+    else:
+        return 1
+        
+    
+# Create a team given the predictions
 def create_team():
     gk_limit = 2  # Amount of players per position
     gk_num = 0
@@ -250,7 +265,15 @@ def create_team():
 total = 521
 gameweek = 1
 budget = 1000
-stats = True
+stats = True 
+pos_forward_modifier = 0.75
+pos_back_modifier = 1.2
+
+# Position changes
+changes = {'id': [4, 26, 50, 51, 166, 149, 168, 266, 303, 306, 315, 322, 355, 358, 399, 391, 437, 468], 
+           'change': ['b', 'b', 'f', 'f', 'f', 'f', 'b', 'b', 'f', 'b', 'b', 'f', 'f', 'f', 'b', 'b', 'f', 'b']}
+
+changes_df = pd.DataFrame (changes, columns = ['id','change'])
 
 # Load in data
 with open('../data/players_data.json') as json_file:
@@ -338,6 +361,8 @@ for i in range(1, total+1): #total+1  # i is meant to be player id
         
         # MAKE PREDICTIONS
         last_season_weight = math.log10(11-gameweek)  # Weight of past season should decrease over time
+        
+        last_total = last_total * changed_position(i-1)# Apply a modifier if player changes pos
         '''
         if(form == 0.0): # if no form
             pred_5 = (ppg  * ((diffi_5/average) ** math.e))
