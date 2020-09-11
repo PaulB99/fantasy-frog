@@ -52,3 +52,20 @@ Third team:
     
     Henderson   Wilson   Anderson   Sharp
    
+Another issue that wasn't apparent at this point was that the id numbers and player order couldn't ever really line up - there were discrepancies with how they were counted. I shifted the focus entirely away from id numbers, and this finally produced a result like I was expecting.
+
+Fourth team:
+
+                       Pope
+
+            Pereira   Stevens   Doherty   
+
+    De Bruyne (C)   Mahrez   Lundstram   Son
+
+               Wood   Ayew   Ings
+
+    Bench:
+
+    Dubravka   Chilwell   Perez   Taylor
+
+
