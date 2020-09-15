@@ -68,7 +68,7 @@ def create_team():
     fwds = []
     
     # good min price players for the bench
-    bench_gk = ('Steer', 520)
+    bench_gk = ('Temp', 520)
     
     # MAKE SELECTIONS
     for k in range(total):
@@ -267,15 +267,31 @@ def create_team():
         for b in bench:
             writer.writerow(b) 
 
+
+# Update the team for the next gameweek
+def update_team():
+    team_path = '../data/team/team' + str(gameweek -1) + '.csv'
+    with open(team_path, newline='') as f:
+        reader = csv.reader(f)
+        old_team = list(reader)
+        team_preds = []
+        for o in old_team:
+            pred = preds_5[o[1]]
+            team_preds.append(pred)
+        for 
+    
+
 #
 # PREDICT
 # 
             
 # MANUAL VARIABLES
-total = 521  # total players
+new = False  # Make a new team or update existing
+total = 529  # total players
 gameweek = 2  # gameweek
 budget = 960  # total budget -4m
 stats = True # show stats
+transfers = 1 # transfers available
 pos_forward_modifier = 0.75 # modifier if player is more forward than last season
 pos_back_modifier = 1.2  # modifier if player is more defensive than last season
 minutes_threshold = 2291 # threshold under which players are ignored for not playing enough (not in use)
@@ -303,6 +319,7 @@ events_df = pd.DataFrame(events)
 
 # Sort players dataframe by id
 players_df = first_players_df.sort_values('id')
+
 
 preds_5 = [] # Predictions of points per player in next 5 matches
 preds_next = [] # Predictions of points in next match
@@ -397,8 +414,11 @@ for i in range(1, total+1): #total+1  # i is meant to be player position
         # Add to array
         preds_5.append(pred_5)
         preds_next.append(pred_next)
-        
-create_team()
+
+if new == True:      
+    create_team()
+elif new == False:
+    update_team()
                 
 # Edit team
 def edit_team(path):
