@@ -273,8 +273,8 @@ def create_team():
             
 # MANUAL VARIABLES
 total = 521  # total players
-gameweek = 1  # gameweek
-budget = 960  # total budget
+gameweek = 2  # gameweek
+budget = 960  # total budget -4m
 stats = True # show stats
 pos_forward_modifier = 0.75 # modifier if player is more forward than last season
 pos_back_modifier = 1.2  # modifier if player is more defensive than last season

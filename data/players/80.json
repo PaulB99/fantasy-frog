@@ -1,22 +1,6 @@
 {
     "fixtures": [
         {
-            "id": 7,
-            "code": 2128294,
-            "team_h": 3,
-            "team_h_score": null,
-            "team_a": 5,
-            "team_a_score": null,
-            "event": 1,
-            "finished": false,
-            "minutes": 0,
-            "provisional_start_time": false,
-            "kickoff_time": "2020-09-14T19:15:00Z",
-            "event_name": "Gameweek 1",
-            "is_home": true,
-            "difficulty": 3
-        },
-        {
             "id": 16,
             "code": 2128303,
             "team_h": 14,
@@ -609,7 +593,41 @@
             "difficulty": 4
         }
     ],
-    "history": [],
+    "history": [
+        {
+            "element": 80,
+            "fixture": 7,
+            "opponent_team": 5,
+            "total_points": 0,
+            "was_home": true,
+            "kickoff_time": "2020-09-14T19:15:00Z",
+            "team_h_score": 1,
+            "team_a_score": 3,
+            "round": 1,
+            "minutes": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "clean_sheets": 0,
+            "goals_conceded": 0,
+            "own_goals": 0,
+            "penalties_saved": 0,
+            "penalties_missed": 0,
+            "yellow_cards": 0,
+            "red_cards": 0,
+            "saves": 0,
+            "bonus": 0,
+            "bps": 0,
+            "influence": "0.0",
+            "creativity": "0.0",
+            "threat": "0.0",
+            "ict_index": "0.0",
+            "value": 55,
+            "transfers_balance": 0,
+            "selected": 3939,
+            "transfers_in": 0,
+            "transfers_out": 0
+        }
+    ],
     "history_past": [
         {
             "season_name": "2019/20",

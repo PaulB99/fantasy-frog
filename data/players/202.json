@@ -1,22 +1,6 @@
 {
     "fixtures": [
         {
-            "id": 3,
-            "code": 2128289,
-            "team_h": 11,
-            "team_h_score": null,
-            "team_a": 10,
-            "team_a_score": null,
-            "event": 1,
-            "finished": false,
-            "minutes": 0,
-            "provisional_start_time": false,
-            "kickoff_time": "2020-09-12T16:30:00Z",
-            "event_name": "Gameweek 1",
-            "is_home": false,
-            "difficulty": 5
-        },
-        {
             "id": 13,
             "code": 2128300,
             "team_h": 10,
@@ -609,7 +593,41 @@
             "difficulty": 2
         }
     ],
-    "history": [],
+    "history": [
+        {
+            "element": 202,
+            "fixture": 3,
+            "opponent_team": 11,
+            "total_points": 7,
+            "was_home": false,
+            "kickoff_time": "2020-09-12T16:30:00Z",
+            "team_h_score": 4,
+            "team_a_score": 3,
+            "round": 1,
+            "minutes": 61,
+            "goals_scored": 1,
+            "assists": 0,
+            "clean_sheets": 0,
+            "goals_conceded": 3,
+            "own_goals": 0,
+            "penalties_saved": 0,
+            "penalties_missed": 0,
+            "yellow_cards": 0,
+            "red_cards": 0,
+            "saves": 0,
+            "bonus": 1,
+            "bps": 28,
+            "influence": "40.0",
+            "creativity": "0.5",
+            "threat": "27.0",
+            "ict_index": "6.8",
+            "value": 55,
+            "transfers_balance": 0,
+            "selected": 226666,
+            "transfers_in": 0,
+            "transfers_out": 0
+        }
+    ],
     "history_past": [
         {
             "season_name": "2015/16",
