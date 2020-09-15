@@ -207,11 +207,6 @@ def create_team():
     # DETERMINE STARTING TEAM
     
     best_gk = gks[0]
-    #bench_gk = gks[1]
-    '''
-    if (preds_next[gks[1][1]] > preds_next[gks[0][1]]):
-        best_gk = gks[1]
-        bench_gk = gks[0] '''
     
     starting_team = []
     bench = []
@@ -260,12 +255,18 @@ def create_team():
     # Save team to file  
     with open('../data/team/team' + str(gameweek) + '.csv', mode='w') as team_file:
         writer = csv.writer(team_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        writer.writerow(best_gk)
-        for t in starting_team:
-            writer.writerow(t)
-        writer.writerow(bench_gk)
-        for b in bench:
-            writer.writerow(b) 
+        for x in gks:
+            newtuple = (x[0], x[1], 'gk')
+            writer.writerow(newtuple)
+        for x in defs:
+            newtuple = (x[0], x[1], 'def')
+            writer.writerow(newtuple)
+        for x in mids:
+            newtuple = (x[0], x[1], 'mid')
+            writer.writerow(newtuple)
+        for x in fwds:
+            newtuple = (x[0], x[1], 'fwd')
+            writer.writerow(newtuple)
 
 
 # Update the team for the next gameweek
@@ -274,12 +275,30 @@ def update_team():
     with open(team_path, newline='') as f:
         reader = csv.reader(f)
         old_team = list(reader)
+        print(len(old_team))
         team_preds = []
-        for o in old_team:
-            pred = preds_5[o[1]]
-            team_preds.append(pred)
-        for 
-    
+        gks = []
+        defs = []
+        mids = []
+        fwds = []
+        
+        for i in range(len(old_team)):
+            o = old_team[i]
+        
+            if o[2] == 'gk':
+                gks.append(o)
+            elif o[2] == 'def':
+                defs.append(o)
+            elif o[2] == 'mid':
+                mids.append(o)
+            elif o[2] == 'fwd':
+                fwds.append(o)
+            if o[0] != '':
+                pred = preds_5[int(float(o[1]))-1]
+                team_preds.append(pred)
+        #for t in range(total):
+            
+            
 
 #
 # PREDICT
