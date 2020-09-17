@@ -311,12 +311,13 @@ def update_team():
                 if(play_id == int(team[i][1])):
                     team_val += players_df.at[t, 'now_cost']
                     name = players_df.at[t, 'web_name']
-                    team_preds.append((name, t, play_id, preds_next[t], preds_5[t]))
-                    print((name, t, play_id, preds_next[t], preds_5[t]))
-        print(team_val)
+                    pos = players_df.at[t, 'element_type']
+                    team_preds.append((name, t, play_id, preds_next[t], preds_5[t], pos))
+                    print((name, t, play_id, preds_next[t], preds_5[t], pos))
         for t in range(total):
             for p in team_preds:
-                if(validswap(players_df.at[t, 'now_cost'], players_df.at[p[1], 'now_cost'], team_val) and (preds_5[t] > (p[4] + 5*transfer_threshold))):
+                # If affordable, worthwhile and same pos
+                if(validswap(players_df.at[t, 'now_cost'], players_df.at[p[1], 'now_cost'], team_val) and (preds_5[t] > (p[4] + 5*transfer_threshold)) and (p[5] == players_df.at[t, 'element_type'])):
                     print(p[0] + " to " + players_df.at[t, 'web_name'])
                    
             
@@ -336,7 +337,7 @@ transfers = 1 # transfers available
 pos_forward_modifier = 0.75 # modifier if player is more forward than last season
 pos_back_modifier = 1.2  # modifier if player is more defensive than last season
 minutes_threshold = 2291 # threshold under which players are ignored for not playing enough (not in use)
-transfer_threshold = 2.0 # threshold for making a transfer
+transfer_threshold = 1.0 # threshold for making a transfer
 
 # Position changes
 changes = {'id': [4, 26, 50, 51, 166, 149, 168, 266, 303, 306, 315, 322, 355, 358, 399, 391, 437, 468], 
@@ -431,7 +432,7 @@ for i in range(1, total+1): #total+1  # i is meant to be player position
                     last_minutes = h[5]
         
         # MAKE PREDICTIONS
-        last_season_weight = math.log10(11-gameweek)  # Weight of past season should decrease over time
+        last_season_weight = math.log10(6-gameweek)  # Weight of past season should decrease over time
         
         last_total = last_total * changed_position(i-1)# Apply a modifier if player changes pos
         '''
@@ -446,8 +447,8 @@ for i in range(1, total+1): #total+1  # i is meant to be player position
             pred_5 = (((ppg + (last_total / 38)) /2)  * (5*((diffi_5/(average*5)) ** math.e))) * chance_to_play(i-1)
             pred_next = (((ppg + (last_total / 38)) /2) * ((diffi_next/average) ** math.e))  * chance_to_play(i-1)
         else:
-            pred_5 = ((ppg + ((last_total / 38) * last_season_weight) + (form * (1- last_season_weight))) /3 * (5*((diffi_5/(5*average)) ** math.e)))  * chance_to_play(i-1)
-            pred_next = ((ppg + ((last_total / 38) * last_season_weight) + (form * (1- last_season_weight))) /3 * ((diffi_next/(average)) ** math.e))  * chance_to_play(i-1)
+            pred_5 = ((((last_total / 38) * last_season_weight) + ((ppg + form)/2 * (1- last_season_weight))) /2 * (5*((diffi_5/(5*average)) ** math.e)))  * chance_to_play(i-1)
+            pred_next = ((((last_total / 38) * last_season_weight) + ((ppg + form)/2 * (1- last_season_weight))) /2 * ((diffi_next/(average)) ** math.e))  * chance_to_play(i-1)
         
         # Check if misses next match
         if(player_fix[0]['event_name'] != ("Gameweek " + str(gameweek))):
