@@ -14,7 +14,7 @@ import csv
 
 # Checks if a swap can be made in budget
 def validswap(x, y, value):
-    if(value + x - y <= budget):
+    if(value + x - y <= (budget-40)):
         return True
     else:
         return False
@@ -68,15 +68,16 @@ def create_team():
     fwds = []
     
     # good min price players for the bench
-    bench_gk = ('Temp', 520)
+    bench_gk = ('Temp', 520, 1)
     
     # MAKE SELECTIONS
     for k in range(total):
         select_pos = players_df.at[k, 'element_type']  # 1=gk, 2=def, 3=mid, 4=fwd
         name = players_df.at[k, 'web_name'] + ' (' + get_team(players_df.at[k, 'team']) + ')'
+        p_id = players_df.at[k, 'id']
         if (select_pos == 1):
             if (gk_num < gk_limit):
-                gks.append((name, k))
+                gks.append((name, k, p_id))
                 gk_num +=1
                 team_cost+= float(players_df.at[k, 'now_cost'])
             else:
@@ -84,7 +85,7 @@ def create_team():
                     if(validswap(float(players_df.at[k, 'now_cost']), float(players_df.at[gks[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[gks[m][1]]):
                         new_gks = [n for n in gks if n[0] != gks[m][0]]
                         
-                        new_gks.append((name, k))
+                        new_gks.append((name, k, p_id))
                         
                         team_cost -= float(players_df.at[gks[m][1], 'now_cost'])
                         team_cost += float(players_df.at[k, 'now_cost'])
@@ -92,11 +93,11 @@ def create_team():
                         gks = new_gks
                         
             if((float(players_df.at[k, 'now_cost']) == 40) and (preds_5[k] >= preds_5[bench_gk[1]])):  # if eligible to be a good bench gk
-                bench_gk = (name, k)
+                bench_gk = (name, k, p_id)
                     
         elif (select_pos == 2):
             if (def_num < def_limit):
-                defs.append((name, k))
+                defs.append((name, k, p_id))
                 def_num +=1
                 team_cost+= float(players_df.at[k, 'now_cost'])
             else:
@@ -104,7 +105,7 @@ def create_team():
                     if(validswap(float(players_df.at[k, 'now_cost']), float(players_df.at[defs[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[defs[m][1]]):
                         new_defs = [n for n in defs if n[0] != defs[m][0]]
                         
-                        new_defs.append((name, k))
+                        new_defs.append((name, k, p_id))
                         
                         team_cost -= float(players_df.at[defs[m][1], 'now_cost'])
                         team_cost += float(players_df.at[k, 'now_cost'])
@@ -114,7 +115,7 @@ def create_team():
                 
         elif (select_pos == 3):
             if(mid_num < mid_limit):
-                mids.append((name, k))
+                mids.append((name, k, p_id))
                 mid_num +=1
                 team_cost+= float(players_df.at[k, 'now_cost'])
             else:
@@ -122,7 +123,7 @@ def create_team():
                     if(validswap(float(players_df.at[k, 'now_cost']), float(players_df.at[mids[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[mids[m][1]]):
                         new_mids = [n for n in mids if n[0] != mids[m][0]]
                         
-                        new_mids.append((name, k))
+                        new_mids.append((name, k, p_id))
                         
                         team_cost -= float(players_df.at[mids[m][1], 'now_cost'])
                         team_cost += float(players_df.at[k, 'now_cost'])
@@ -132,7 +133,7 @@ def create_team():
                 
         elif (select_pos == 4):
             if(fwd_num < fwd_limit):
-                fwds.append((name, k))
+                fwds.append((name, k, p_id))
                 fwd_num +=1
                 team_cost+= float(players_df.at[k, 'now_cost'])
             else:
@@ -140,7 +141,7 @@ def create_team():
                     if(validswap(float(players_df.at[k, 'now_cost']), float(players_df.at[fwds[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[fwds[m][1]]):
                         new_fwds = [n for n in fwds if n[0] != fwds[m][0]]
                         
-                        new_fwds.append((name, k))
+                        new_fwds.append((name, k, p_id))
                         
                         team_cost -= float(players_df.at[fwds[m][1], 'now_cost'])
                         team_cost += float(players_df.at[k, 'now_cost'])
@@ -256,16 +257,16 @@ def create_team():
     with open('../data/team/team' + str(gameweek) + '.csv', mode='w') as team_file:
         writer = csv.writer(team_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         for x in gks:
-            newtuple = (x[0], x[1], 'gk')
+            newtuple = (x[0], x[2], 'gk')
             writer.writerow(newtuple)
         for x in defs:
-            newtuple = (x[0], x[1], 'def')
+            newtuple = (x[0], x[2], 'def')
             writer.writerow(newtuple)
         for x in mids:
-            newtuple = (x[0], x[1], 'mid')
+            newtuple = (x[0], x[2], 'mid')
             writer.writerow(newtuple)
         for x in fwds:
-            newtuple = (x[0], x[1], 'fwd')
+            newtuple = (x[0], x[2], 'fwd')
             writer.writerow(newtuple)
 
 
@@ -275,28 +276,49 @@ def update_team():
     with open(team_path, newline='') as f:
         reader = csv.reader(f)
         old_team = list(reader)
-        print(len(old_team))
-        team_preds = []
+        team_preds = []   # Position, id, prediction
         gks = []
         defs = []
         mids = []
         fwds = []
+        team = []
+        team_val = 0
         
         for i in range(len(old_team)):
             o = old_team[i]
         
             if o[2] == 'gk':
                 gks.append(o)
+                team.append(o)
             elif o[2] == 'def':
                 defs.append(o)
+                team.append(o)
             elif o[2] == 'mid':
                 mids.append(o)
+                team.append(o)
             elif o[2] == 'fwd':
                 fwds.append(o)
-            if o[0] != '':
-                pred = preds_5[int(float(o[1]))-1]
-                team_preds.append(pred)
-        #for t in range(total):
+                team.append(o)
+            '''if o[0] != '':
+                pred = preds_5[int(o[1])-1]
+                print(o)
+                print(pred)
+                team_preds.append(pred)'''
+
+        for t in range(total):    # Get predictions for current team
+            play_id = players_df.at[t, 'id']
+            for i in range(len(team)):
+                if(play_id == int(team[i][1])):
+                    team_val += players_df.at[t, 'now_cost']
+                    name = players_df.at[t, 'web_name']
+                    team_preds.append((name, t, play_id, preds_next[t], preds_5[t]))
+                    print((name, t, play_id, preds_next[t], preds_5[t]))
+        print(team_val)
+        for t in range(total):
+            for p in team_preds:
+                if(validswap(players_df.at[t, 'now_cost'], players_df.at[p[1], 'now_cost'], team_val) and (preds_5[t] > (p[4] + 5*transfer_threshold))):
+                    print(p[0] + " to " + players_df.at[t, 'web_name'])
+                   
             
             
 
@@ -308,12 +330,13 @@ def update_team():
 new = False  # Make a new team or update existing
 total = 529  # total players
 gameweek = 2  # gameweek
-budget = 960  # total budget -4m
+budget = 1001  # total budget
 stats = True # show stats
 transfers = 1 # transfers available
 pos_forward_modifier = 0.75 # modifier if player is more forward than last season
 pos_back_modifier = 1.2  # modifier if player is more defensive than last season
 minutes_threshold = 2291 # threshold under which players are ignored for not playing enough (not in use)
+transfer_threshold = 2.0 # threshold for making a transfer
 
 # Position changes
 changes = {'id': [4, 26, 50, 51, 166, 149, 168, 266, 303, 306, 315, 322, 355, 358, 399, 391, 437, 468], 
