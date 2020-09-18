@@ -283,11 +283,14 @@ def update_team():
         fwds = []
         team = []
         team_val = 0
+        transfers = []
         
         for i in range(len(old_team)):
             o = old_team[i]
-        
-            if o[2] == 'gk':
+            if(o[0] != ''):       
+                team.append(o)
+            '''if o[2] == 'gk':
+                player = (o[0], o[1], o[2])
                 gks.append(o)
                 team.append(o)
             elif o[2] == 'def':
@@ -298,7 +301,7 @@ def update_team():
                 team.append(o)
             elif o[2] == 'fwd':
                 fwds.append(o)
-                team.append(o)
+                team.append(o)'''
             '''if o[0] != '':
                 pred = preds_5[int(o[1])-1]
                 print(o)
@@ -309,17 +312,97 @@ def update_team():
             play_id = players_df.at[t, 'id']
             for i in range(len(team)):
                 if(play_id == int(team[i][1])):
+                    
+                    # Add to position lists
+                    player = (team[i][0].replace(' (C)', ''), team[i][1], t, team[i][2])
+                    if team[i][2] == 'gk':
+                        gks.append(player)
+                    elif team[i][2] == 'def':
+                        defs.append(player)
+                    elif team[i][2] == 'mid':
+                        mids.append(player)
+                    elif team[i][2] == 'fwd':
+                        fwds.append(player)
+                        
+                    # Predictions
                     team_val += players_df.at[t, 'now_cost']
                     name = players_df.at[t, 'web_name']
                     pos = players_df.at[t, 'element_type']
                     team_preds.append((name, t, play_id, preds_next[t], preds_5[t], pos))
-                    print((name, t, play_id, preds_next[t], preds_5[t], pos))
+                    if stats:
+                        print((name, t, play_id, preds_next[t], preds_5[t], pos))
         for t in range(total):
             for p in team_preds:
                 # If affordable, worthwhile and same pos
                 if(validswap(players_df.at[t, 'now_cost'], players_df.at[p[1], 'now_cost'], team_val) and (preds_5[t] > (p[4] + 5*transfer_threshold)) and (p[5] == players_df.at[t, 'element_type'])):
                     print(p[0] + " to " + players_df.at[t, 'web_name'])
-                   
+                    transfers.append((p[0], p[2], players_df.at[t, 'web_name'], players_df.at[t, 'now_cost']))
+                    
+        # MAKE TRANSFERS PROPOSED
+                    
+        # FIND BEST TEAM
+        best_gk = gks[0]
+        bench_gk = gks[1]
+        starting_team = []
+        bench = []
+        for d in defs:
+            starting_team.append(d)  # Defenders will always fit
+        for m in mids:
+            starting_team.append(m)  # Mids will just about fit
+        for f in fwds:
+            lowest = starting_team[0]
+            for s in starting_team:  # Find lowest scoring player
+                if(preds_next[s[2]] < preds_next[lowest[2]]):
+                    lowest = s
+            if (preds_next[f[2]] > preds_next[lowest[2]]):
+                bench.append(lowest)
+                new_team = [n for n in starting_team if n[0] != lowest[0]]
+                new_team.append(f)
+                starting_team = new_team
+            else:
+                bench.append(f)
+        
+        # Find captain
+        captain = (best_gk)
+        for s in starting_team:
+            if (preds_next[s[2]] > preds_next[captain[2]]):
+                captain = s
+        for pos in range(len(starting_team)):   # Apply (C) for captain
+            if (starting_team[pos][0] == captain [0]):
+                lst = list(starting_team[pos])
+                lst[0] += ' (C) '
+                s = tuple(lst)
+                starting_team[pos] = s
+                
+        # Order bench
+        bench.sort(reverse = True, key = lambda b: preds_next[b[2]])
+                
+        # Print team
+        print('Starting 11 : \n')
+        print(best_gk[0])
+        for s in starting_team:
+            print(s[0])
+        print('Bench : \n')
+        print(bench_gk[0], end='   ') # Bench 
+        for b in bench:
+            print(b[0], end='   ')
+                    
+         # Save team to file  
+        with open('../data/team/team' + str(gameweek) + '.csv', mode='w') as team_file:
+            writer = csv.writer(team_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+            for x in gks:
+                newtuple = (x[0], x[2], 'gk')
+                writer.writerow(newtuple)
+            for x in defs:
+                newtuple = (x[0], x[2], 'def')
+                writer.writerow(newtuple)
+            for x in mids:
+                newtuple = (x[0], x[2], 'mid')
+                writer.writerow(newtuple)
+            for x in fwds:
+                newtuple = (x[0], x[2], 'fwd')
+                writer.writerow(newtuple)
+                    
             
             
 
