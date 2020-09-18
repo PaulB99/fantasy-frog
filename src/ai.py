@@ -289,24 +289,6 @@ def update_team():
             o = old_team[i]
             if(o[0] != ''):       
                 team.append(o)
-            '''if o[2] == 'gk':
-                player = (o[0], o[1], o[2])
-                gks.append(o)
-                team.append(o)
-            elif o[2] == 'def':
-                defs.append(o)
-                team.append(o)
-            elif o[2] == 'mid':
-                mids.append(o)
-                team.append(o)
-            elif o[2] == 'fwd':
-                fwds.append(o)
-                team.append(o)'''
-            '''if o[0] != '':
-                pred = preds_5[int(o[1])-1]
-                print(o)
-                print(pred)
-                team_preds.append(pred)'''
 
         for t in range(total):    # Get predictions for current team
             play_id = players_df.at[t, 'id']
