@@ -1,22 +1,6 @@
 {
     "fixtures": [
         {
-            "id": 18,
-            "code": 2128305,
-            "team_h": 20,
-            "team_h_score": null,
-            "team_a": 12,
-            "team_a_score": null,
-            "event": 2,
-            "finished": false,
-            "minutes": 0,
-            "provisional_start_time": false,
-            "kickoff_time": "2020-09-21T19:15:00Z",
-            "event_name": "Gameweek 2",
-            "is_home": false,
-            "difficulty": 3
-        },
-        {
             "id": 24,
             "code": 2128311,
             "team_h": 12,
@@ -608,7 +592,41 @@
             "difficulty": 2
         }
     ],
-    "history": [],
+    "history": [
+        {
+            "element": 284,
+            "fixture": 18,
+            "opponent_team": 20,
+            "total_points": 9,
+            "was_home": false,
+            "kickoff_time": "2020-09-21T19:15:00Z",
+            "team_h_score": 1,
+            "team_a_score": 3,
+            "round": 2,
+            "minutes": 90,
+            "goals_scored": 1,
+            "assists": 0,
+            "clean_sheets": 0,
+            "goals_conceded": 1,
+            "own_goals": 0,
+            "penalties_saved": 0,
+            "penalties_missed": 0,
+            "yellow_cards": 0,
+            "red_cards": 0,
+            "saves": 0,
+            "bonus": 2,
+            "bps": 37,
+            "influence": "46.4",
+            "creativity": "18.8",
+            "threat": "23.0",
+            "ict_index": "8.8",
+            "value": 65,
+            "transfers_balance": 20071,
+            "selected": 279640,
+            "transfers_in": 59741,
+            "transfers_out": 39670
+        }
+    ],
     "history_past": [
         {
             "season_name": "2017/18",

@@ -276,6 +276,7 @@ def update_team():
     with open(team_path, newline='') as f:
         reader = csv.reader(f)
         old_team = list(reader)
+        #print(old_team)
         team_preds = []   # Position, id, prediction
         gks = []
         defs = []
@@ -287,8 +288,9 @@ def update_team():
         
         for i in range(len(old_team)):
             o = old_team[i]
-            if(o[0] != ''):       
-                team.append(o)
+            if(len(o) != 0): 
+                if(o[0] != ''):    
+                    team.append(o)
 
         for t in range(total):    # Get predictions for current team
             play_id = players_df.at[t, 'id']
@@ -296,7 +298,7 @@ def update_team():
                 if(play_id == int(team[i][1])):
                     
                     # Add to position lists
-                    player = (team[i][0].replace(' (C)', ''), team[i][1], t, team[i][2])
+                    player = (team[i][0].replace(' (C)', ''), team[i][1], t, team[i][2], play_id)
                     if team[i][2] == 'gk':
                         gks.append(player)
                     elif team[i][2] == 'def':
@@ -373,16 +375,16 @@ def update_team():
         with open('../data/team/team' + str(gameweek) + '.csv', mode='w') as team_file:
             writer = csv.writer(team_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             for x in gks:
-                newtuple = (x[0], x[2], 'gk')
+                newtuple = (x[0], x[4], 'gk')
                 writer.writerow(newtuple)
             for x in defs:
-                newtuple = (x[0], x[2], 'def')
+                newtuple = (x[0], x[4], 'def')
                 writer.writerow(newtuple)
             for x in mids:
-                newtuple = (x[0], x[2], 'mid')
+                newtuple = (x[0], x[4], 'mid')
                 writer.writerow(newtuple)
             for x in fwds:
-                newtuple = (x[0], x[2], 'fwd')
+                newtuple = (x[0], x[4], 'fwd')
                 writer.writerow(newtuple)
                     
             
@@ -394,11 +396,11 @@ def update_team():
             
 # MANUAL VARIABLES
 new = False  # Make a new team or update existing
-total = 529  # total players
-gameweek = 2  # gameweek
-budget = 1001  # total budget
+total = 545  # total players
+gameweek = 3  # gameweek
+budget = 1000  # total budget
 stats = True # show stats
-transfers = 1 # transfers available
+transfers = 2 # transfers available
 pos_forward_modifier = 0.75 # modifier if player is more forward than last season
 pos_back_modifier = 1.2  # modifier if player is more defensive than last season
 minutes_threshold = 2291 # threshold under which players are ignored for not playing enough (not in use)

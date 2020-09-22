@@ -10,7 +10,7 @@ import pandas as pd
 import json
 
 # Total players
-total = 529
+total = 545
 
 def get(url):
     response = requests.get(url)

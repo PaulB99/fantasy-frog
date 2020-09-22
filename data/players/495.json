@@ -1,22 +1,6 @@
 {
     "fixtures": [
         {
-            "id": 15,
-            "code": 2128302,
-            "team_h": 13,
-            "team_h_score": null,
-            "team_a": 6,
-            "team_a_score": null,
-            "event": 2,
-            "finished": false,
-            "minutes": 0,
-            "provisional_start_time": false,
-            "kickoff_time": "2020-09-19T16:30:00Z",
-            "event_name": "Gameweek 2",
-            "is_home": true,
-            "difficulty": 2
-        },
-        {
             "id": 19,
             "code": 2128306,
             "team_h": 3,
@@ -608,6 +592,40 @@
             "difficulty": 3
         }
     ],
-    "history": [],
+    "history": [
+        {
+            "element": 495,
+            "fixture": 15,
+            "opponent_team": 6,
+            "total_points": 6,
+            "was_home": true,
+            "kickoff_time": "2020-09-19T16:30:00Z",
+            "team_h_score": 1,
+            "team_a_score": 3,
+            "round": 2,
+            "minutes": 23,
+            "goals_scored": 1,
+            "assists": 0,
+            "clean_sheets": 0,
+            "goals_conceded": 2,
+            "own_goals": 0,
+            "penalties_saved": 0,
+            "penalties_missed": 0,
+            "yellow_cards": 0,
+            "red_cards": 0,
+            "saves": 0,
+            "bonus": 0,
+            "bps": 19,
+            "influence": "36.2",
+            "creativity": "3.3",
+            "threat": "23.0",
+            "ict_index": "6.3",
+            "value": 70,
+            "transfers_balance": 23767,
+            "selected": 247988,
+            "transfers_in": 51212,
+            "transfers_out": 27445
+        }
+    ],
     "history_past": []
 }
