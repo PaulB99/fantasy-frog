@@ -14,7 +14,7 @@ import csv
 
 # Checks if a swap can be made in budget
 def validswap(x, y, value):
-    if(value + x - y <= (budget-40)):
+    if(value + x - y <= (budget)):
         return True
     else:
         return False
@@ -313,17 +313,55 @@ def update_team():
                     name = players_df.at[t, 'web_name']
                     pos = players_df.at[t, 'element_type']
                     team_preds.append((name, t, play_id, preds_next[t], preds_5[t], pos))
-                    if stats:
-                        print((name, t, play_id, preds_next[t], preds_5[t], pos))
+
         for t in range(total):
             for p in team_preds:
                 # If affordable, worthwhile and same pos
                 if(validswap(players_df.at[t, 'now_cost'], players_df.at[p[1], 'now_cost'], team_val) and (preds_5[t] > (p[4] + 5*transfer_threshold)) and (p[5] == players_df.at[t, 'element_type'])):
-                    print(p[0] + " to " + players_df.at[t, 'web_name'])
-                    transfers.append((p[0], p[2], players_df.at[t, 'web_name'], players_df.at[t, 'now_cost']))
+                    transfers.append((p[0], p[2], players_df.at[t, 'web_name'], players_df.at[t, 'id'], preds_5[t] - p[4], t))  # Current player, id, new player, id, gain, new position
                     
         # MAKE TRANSFERS PROPOSED
+        sorted_transfers = sorted(transfers, key=lambda x: x[4], reverse = True)
+        
+        top_transfers = []
+        if(len(sorted_transfers) >= num_transfers):
+            for x in range(num_transfers):
+                top_transfers.append(sorted_transfers[x]) # Append transfers to be made
+                print(top_transfers[x][0] + " to " + top_transfers[x][2])
+        
+        for g in range(len(gks)):
+            for t in top_transfers:
+                if t[1] == gks[g][1]:
+                    name =  t[2] + ' (' + get_team(players_df.at[t[5], 'team']) + ')'
+                    gks[g] = (name, t[3], t[5], 'gk', t[3])  # name, id, where, pos, id
+        for g in range(len(defs)):
+            for t in top_transfers:
+                if t[1] == int(defs[g][1]):
+                    name =  t[2] + ' (' + get_team(players_df.at[t[5], 'team']) + ')'
+                    defs[g] = (name, t[3], t[5], 'def', t[3])
+        for g in range(len(mids)):
+            for t in top_transfers:
+                if t[1] == int(mids[g][1]):
+                    name =  t[2] + ' (' + get_team(players_df.at[t[5], 'team']) + ')'
+                    mids[g] = (name, t[3], t[5], 'mid', t[3])
+        for g in range(len(fwds)):
+            for t in top_transfers:
+                if t[1] == int(fwds[g][1]):
+                    name =  t[2] + ' (' + get_team(players_df.at[t[5], 'team']) + ')'
+                    fwds[g] = (name, t[3], t[5], 'fwd', t[3])
                     
+              
+         # Print predictions per player 
+        if (stats == True):
+            for g in gks:
+                print(str(preds_next[g[2]]) + ' ' + g[0] + ' ' + str(g[2]) + ' ' + str(players_df.at[g[2], 'id']))
+            for g in defs:
+                print(str(preds_next[g[2]]) + ' ' + g[0] + ' ' + str(g[2]) + ' ' + str(players_df.at[g[2], 'id']))
+            for g in mids:
+                print(str(preds_next[g[2]]) + ' ' + g[0] + ' ' + str(g[2]) + ' ' + str(players_df.at[g[2], 'id']))
+            for g in fwds:
+                print(str(preds_next[g[2]]) + ' ' + g[0] + ' ' + str(g[2]) + ' ' + str(players_df.at[g[2], 'id']))
+        
         # FIND BEST TEAM
         best_gk = gks[0]
         bench_gk = gks[1]
@@ -400,11 +438,12 @@ total = 545  # total players
 gameweek = 3  # gameweek
 budget = 1000  # total budget
 stats = True # show stats
-transfers = 2 # transfers available
+num_transfers = 2 # transfers available
 pos_forward_modifier = 0.75 # modifier if player is more forward than last season
 pos_back_modifier = 1.2  # modifier if player is more defensive than last season
 minutes_threshold = 2291 # threshold under which players are ignored for not playing enough (not in use)
-transfer_threshold = 1.0 # threshold for making a transfer
+transfer_threshold = 2.0 # threshold for making a transfer
+season_started = True # True if the season has started, False otherwise
 
 # Position changes
 changes = {'id': [4, 26, 50, 51, 166, 149, 168, 266, 303, 306, 315, 322, 355, 358, 399, 391, 437, 468], 
@@ -510,7 +549,7 @@ for i in range(1, total+1): #total+1  # i is meant to be player position
             pred_5 = ((ppg + form) /2 * ((diffi_5/average) ** math.e))
             pred_next = ((ppg + form) /2 * ((diffi_next/average) ** math.e))
         '''
-        if(form == 0.0): # if no form
+        if(form == 0.0 and not season_started): # if no form
             pred_5 = (((ppg + (last_total / 38)) /2)  * (5*((diffi_5/(average*5)) ** math.e))) * chance_to_play(i-1)
             pred_next = (((ppg + (last_total / 38)) /2) * ((diffi_next/average) ** math.e))  * chance_to_play(i-1)
         else:
