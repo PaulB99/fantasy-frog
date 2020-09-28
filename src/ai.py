@@ -322,6 +322,7 @@ def update_team():
                     
         # MAKE TRANSFERS PROPOSED
         sorted_transfers = sorted(transfers, key=lambda x: x[4], reverse = True)
+        print(sorted_transfers)
         
         top_transfers = []
         if(len(sorted_transfers) >= num_transfers):
@@ -552,6 +553,10 @@ for i in range(1, total+1): #total+1  # i is meant to be player position
         if(form == 0.0 and not season_started): # if no form
             pred_5 = (((ppg + (last_total / 38)) /2)  * (5*((diffi_5/(average*5)) ** math.e))) * chance_to_play(i-1)
             pred_next = (((ppg + (last_total / 38)) /2) * ((diffi_next/average) ** math.e))  * chance_to_play(i-1)
+            
+        elif(last_total == 0.0): # Not fair to include last season as a 0 if the player didn't play
+            pred_5 = ((ppg + form)/2  * (5*((diffi_5/(5*average)) ** math.e)))  * chance_to_play(i-1)
+            pred_next = ((ppg + form)/2 * ((diffi_next/(average)) ** math.e))  * chance_to_play(i-1)
         else:
             pred_5 = ((((last_total / 38) * last_season_weight) + ((ppg + form)/2 * (1- last_season_weight))) /2 * (5*((diffi_5/(5*average)) ** math.e)))  * chance_to_play(i-1)
             pred_next = ((((last_total / 38) * last_season_weight) + ((ppg + form)/2 * (1- last_season_weight))) /2 * ((diffi_next/(average)) ** math.e))  * chance_to_play(i-1)
@@ -569,12 +574,6 @@ if new == True:
 elif new == False:
     update_team()
                 
-# Edit team
-def edit_team(path):
-    new_path = path[:-1] + str(gameweek)
-    csvpath = path +'.csv'
-    
-        
 
 # FIRST TIME
 
