@@ -1,22 +1,6 @@
 {
     "fixtures": [
         {
-            "id": 19,
-            "code": 2128306,
-            "team_h": 3,
-            "team_h_score": null,
-            "team_a": 13,
-            "team_a_score": null,
-            "event": 3,
-            "finished": false,
-            "minutes": 0,
-            "provisional_start_time": false,
-            "kickoff_time": "2020-09-26T11:30:00Z",
-            "event_name": "Gameweek 3",
-            "is_home": false,
-            "difficulty": 2
-        },
-        {
             "id": 35,
             "code": 2128322,
             "team_h": 13,
@@ -27,7 +11,7 @@
             "finished": false,
             "minutes": 0,
             "provisional_start_time": false,
-            "kickoff_time": "2020-10-03T14:00:00Z",
+            "kickoff_time": "2020-10-04T15:30:00Z",
             "event_name": "Gameweek 4",
             "is_home": true,
             "difficulty": 3
@@ -625,6 +609,39 @@
             "selected": 1623046,
             "transfers_in": 525858,
             "transfers_out": 73860
+        },
+        {
+            "element": 302,
+            "fixture": 19,
+            "opponent_team": 3,
+            "total_points": 12,
+            "was_home": false,
+            "kickoff_time": "2020-09-26T11:30:00Z",
+            "team_h_score": 2,
+            "team_a_score": 3,
+            "round": 3,
+            "minutes": 90,
+            "goals_scored": 1,
+            "assists": 1,
+            "clean_sheets": 0,
+            "goals_conceded": 2,
+            "own_goals": 0,
+            "penalties_saved": 0,
+            "penalties_missed": 0,
+            "yellow_cards": 1,
+            "red_cards": 0,
+            "saves": 0,
+            "bonus": 3,
+            "bps": 40,
+            "influence": "60.6",
+            "creativity": "40.8",
+            "threat": "19.0",
+            "ict_index": "12.0",
+            "value": 105,
+            "transfers_balance": -274258,
+            "selected": 1344788,
+            "transfers_in": 80386,
+            "transfers_out": 354644
         }
     ],
     "history_past": [

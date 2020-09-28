@@ -1,22 +1,6 @@
 {
     "fixtures": [
         {
-            "id": 22,
-            "code": 2128309,
-            "team_h": 8,
-            "team_h_score": null,
-            "team_a": 2,
-            "team_a_score": null,
-            "event": 3,
-            "finished": false,
-            "minutes": 0,
-            "provisional_start_time": false,
-            "kickoff_time": "2020-09-28T17:00:00Z",
-            "event_name": "Gameweek 3",
-            "is_home": true,
-            "difficulty": 2
-        },
-        {
             "id": 38,
             "code": 2128325,
             "team_h": 20,
@@ -27,7 +11,7 @@
             "finished": false,
             "minutes": 0,
             "provisional_start_time": false,
-            "kickoff_time": "2020-10-03T14:00:00Z",
+            "kickoff_time": "2020-10-04T13:00:00Z",
             "event_name": "Gameweek 4",
             "is_home": false,
             "difficulty": 3
@@ -643,6 +627,39 @@
             "selected": 9228,
             "transfers_in": 2197,
             "transfers_out": 2023
+        },
+        {
+            "element": 190,
+            "fixture": 22,
+            "opponent_team": 2,
+            "total_points": 0,
+            "was_home": true,
+            "kickoff_time": "2020-09-28T16:45:00Z",
+            "team_h_score": 0,
+            "team_a_score": 3,
+            "round": 3,
+            "minutes": 51,
+            "goals_scored": 0,
+            "assists": 0,
+            "clean_sheets": 0,
+            "goals_conceded": 1,
+            "own_goals": 0,
+            "penalties_saved": 0,
+            "penalties_missed": 0,
+            "yellow_cards": 1,
+            "red_cards": 0,
+            "saves": 0,
+            "bonus": 0,
+            "bps": 1,
+            "influence": "6.0",
+            "creativity": "37.4",
+            "threat": "0.0",
+            "ict_index": "4.3",
+            "value": 50,
+            "transfers_balance": -1099,
+            "selected": 8392,
+            "transfers_in": 1028,
+            "transfers_out": 2127
         }
     ],
     "history_past": [

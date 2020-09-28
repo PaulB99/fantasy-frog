@@ -1,22 +1,6 @@
 {
     "fixtures": [
         {
-            "id": 21,
-            "code": 2128308,
-            "team_h": 6,
-            "team_h_score": null,
-            "team_a": 7,
-            "team_a_score": null,
-            "event": 3,
-            "finished": false,
-            "minutes": 0,
-            "provisional_start_time": false,
-            "kickoff_time": "2020-09-26T14:00:00Z",
-            "event_name": "Gameweek 3",
-            "is_home": false,
-            "difficulty": 2
-        },
-        {
             "id": 32,
             "code": 2128319,
             "team_h": 7,
@@ -643,6 +627,39 @@
             "selected": 172602,
             "transfers_in": 34383,
             "transfers_out": 25369
+        },
+        {
+            "element": 512,
+            "fixture": 21,
+            "opponent_team": 6,
+            "total_points": 2,
+            "was_home": false,
+            "kickoff_time": "2020-09-26T14:00:00Z",
+            "team_h_score": 1,
+            "team_a_score": 2,
+            "round": 3,
+            "minutes": 90,
+            "goals_scored": 0,
+            "assists": 0,
+            "clean_sheets": 0,
+            "goals_conceded": 1,
+            "own_goals": 0,
+            "penalties_saved": 0,
+            "penalties_missed": 0,
+            "yellow_cards": 0,
+            "red_cards": 0,
+            "saves": 0,
+            "bonus": 0,
+            "bps": 12,
+            "influence": "14.6",
+            "creativity": "4.7",
+            "threat": "33.0",
+            "ict_index": "5.2",
+            "value": 55,
+            "transfers_balance": -43447,
+            "selected": 130294,
+            "transfers_in": 7437,
+            "transfers_out": 50884
         }
     ],
     "history_past": [

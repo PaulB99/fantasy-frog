@@ -434,11 +434,11 @@ def update_team():
             
 # MANUAL VARIABLES
 new = False  # Make a new team or update existing
-total = 545  # total players
-gameweek = 3  # gameweek
-budget = 1000  # total budget
+total = 554  # total players
+gameweek = 4  # gameweek
+budget = 996  # total budget
 stats = True # show stats
-num_transfers = 2 # transfers available
+num_transfers = 1 # transfers available
 pos_forward_modifier = 0.75 # modifier if player is more forward than last season
 pos_back_modifier = 1.2  # modifier if player is more defensive than last season
 minutes_threshold = 2291 # threshold under which players are ignored for not playing enough (not in use)
@@ -538,7 +538,7 @@ for i in range(1, total+1): #total+1  # i is meant to be player position
                     last_minutes = h[5]
         
         # MAKE PREDICTIONS
-        last_season_weight = math.log10(6-gameweek)  # Weight of past season should decrease over time
+        last_season_weight = math.log10(8-gameweek)  # Weight of past season should decrease over time
         
         last_total = last_total * changed_position(i-1)# Apply a modifier if player changes pos
         '''
