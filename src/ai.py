@@ -285,6 +285,7 @@ def update_team():
         team = []
         team_val = 0
         transfers = []
+        delta_changes = 0 # The desire for a wildcard
         
         for i in range(len(old_team)):
             o = old_team[i]
@@ -318,17 +319,30 @@ def update_team():
             for p in team_preds:
                 # If affordable, worthwhile and same pos
                 if(validswap(players_df.at[t, 'now_cost'], players_df.at[p[1], 'now_cost'], team_val) and (preds_5[t] > (p[4] + 5*transfer_threshold)) and (p[5] == players_df.at[t, 'element_type'])):
-                    transfers.append((p[0], p[2], players_df.at[t, 'web_name'], players_df.at[t, 'id'], preds_5[t] - p[4], t))  # Current player, id, new player, id, gain, new position
+                    y = False
+                    for x in transfers: 
+                        if(x[0] == p[0] or x[2] == players_df.at[t, 'web_name']):  #If neither players are already involved in a transfer
+                            y = True
+                    if y == False:  
+                        transfers.append((p[0], p[2], players_df.at[t, 'web_name'], players_df.at[t, 'id'], preds_5[t] - p[4], t))  # Current player, id, new player, id, gain, new position
+                        delta_changes+=1
                     
         # MAKE TRANSFERS PROPOSED
         sorted_transfers = sorted(transfers, key=lambda x: x[4], reverse = True)
-        print(sorted_transfers)
         
-        top_transfers = []
-        if(len(sorted_transfers) >= num_transfers):
-            for x in range(num_transfers):
-                top_transfers.append(sorted_transfers[x]) # Append transfers to be made
-                print(top_transfers[x][0] + " to " + top_transfers[x][2])
+        if(stats == True):
+            for x in sorted_transfers:
+                print(x[0] + " to " + x[2] + " (" + str(x[4]) + ")")
+          
+        if(delta_changes >= delta_threshold and wildcard):
+            top_transfers = sorted_transfers
+            print("WILDCARD!")
+        else:
+            top_transfers = []
+            if(len(sorted_transfers) >= num_transfers):
+                for x in range(num_transfers):
+                    top_transfers.append(sorted_transfers[x]) # Append transfers to be made
+                    print(top_transfers[x][0] + " to " + top_transfers[x][2])
         
         for g in range(len(gks)):
             for t in top_transfers:
@@ -445,6 +459,8 @@ pos_back_modifier = 1.2  # modifier if player is more defensive than last season
 minutes_threshold = 2291 # threshold under which players are ignored for not playing enough (not in use)
 transfer_threshold = 2.0 # threshold for making a transfer
 season_started = True # True if the season has started, False otherwise
+delta_threshold = 6 # The threshold at which wildcard will be triggered
+wildcard = True # If the wildcard is available
 
 # Position changes
 changes = {'id': [4, 26, 50, 51, 166, 149, 168, 266, 303, 306, 315, 322, 355, 358, 399, 391, 437, 468], 
