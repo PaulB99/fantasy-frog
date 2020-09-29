@@ -571,8 +571,11 @@ for i in range(1, total+1): #total+1  # i is meant to be player position
             pred_next = (((ppg + (last_total / 38)) /2) * ((diffi_next/average) ** math.e))  * chance_to_play(i-1)
             
         elif(last_total == 0.0): # Not fair to include last season as a 0 if the player didn't play
-            pred_5 = ((ppg + form)/2  * (5*((diffi_5/(5*average)) ** math.e)))  * chance_to_play(i-1)
-            pred_next = ((ppg + form)/2 * ((diffi_next/(average)) ** math.e))  * chance_to_play(i-1)
+            pred_5 = ((ppg + form)/2  * (5*((diffi_5/(5*average)) ** math.e)))  * chance_to_play(i-1) * (1-last_season_weight)
+            pred_next = ((ppg + form)/2 * ((diffi_next/(average)) ** math.e))  * chance_to_play(i-1) * (1-last_season_weight)
+            #pred_5 = (((2 * last_season_weight) + ((ppg + form)/2 * (1- last_season_weight))) /2 * (5*((diffi_5/(5*average)) ** math.e)))  * chance_to_play(i-1)
+            #pred_next = (((2 * last_season_weight) + ((ppg + form)/2 * (1- last_season_weight))) /2 * ((diffi_next/(average)) ** math.e))  * chance_to_play(i-1)
+        
         else:
             pred_5 = ((((last_total / 38) * last_season_weight) + ((ppg + form)/2 * (1- last_season_weight))) /2 * (5*((diffi_5/(5*average)) ** math.e)))  * chance_to_play(i-1)
             pred_next = ((((last_total / 38) * last_season_weight) + ((ppg + form)/2 * (1- last_season_weight))) /2 * ((diffi_next/(average)) ** math.e))  * chance_to_play(i-1)
