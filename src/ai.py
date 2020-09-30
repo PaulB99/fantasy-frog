@@ -317,14 +317,17 @@ def update_team():
 
         for t in range(total):
             for p in team_preds:
+                gain =  preds_5[t] - p[4]
+                if players_df.at[p[1], 'now_cost'] <= 45: # If player is bench fodder, de-prioritise transfer
+                    gain = gain/2
                 # If affordable, worthwhile and same pos
-                if(validswap(players_df.at[t, 'now_cost'], players_df.at[p[1], 'now_cost'], team_val) and (preds_5[t] > (p[4] + 5*transfer_threshold)) and (p[5] == players_df.at[t, 'element_type'])):
+                if(validswap(players_df.at[t, 'now_cost'], players_df.at[p[1], 'now_cost'], team_val) and (gain > 5*transfer_threshold) and (p[5] == players_df.at[t, 'element_type'])):
                     y = False
                     for x in transfers: 
                         if(x[0] == p[0] or x[2] == players_df.at[t, 'web_name']):  #If neither players are already involved in a transfer
                             y = True
-                    if y == False:  
-                        transfers.append((p[0], p[2], players_df.at[t, 'web_name'], players_df.at[t, 'id'], preds_5[t] - p[4], t))  # Current player, id, new player, id, gain, new position
+                    if y == False:
+                        transfers.append((p[0], p[2], players_df.at[t, 'web_name'], players_df.at[t, 'id'], gain, t))  # Current player, id, new player, id, gain, new position
                         delta_changes+=1
                     
         # MAKE TRANSFERS PROPOSED
