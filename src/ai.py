@@ -449,7 +449,7 @@ def update_team():
             
 # MANUAL VARIABLES
 new = False  # Make a new team or update existing
-total = 554  # total players
+total = 556  # total players
 gameweek = 4  # gameweek
 budget = 996  # total budget
 stats = True # show stats
