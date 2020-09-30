@@ -324,11 +324,11 @@ def update_team():
                 if(validswap(players_df.at[t, 'now_cost'], players_df.at[p[1], 'now_cost'], team_val) and (gain > 5*transfer_threshold) and (p[5] == players_df.at[t, 'element_type'])):
                     y = False
                     for x in transfers: 
-                        if(x[0] == p[0] or x[2] == players_df.at[t, 'web_name']):  #If neither players are already involved in a transfer
+                        if(x[0] == p[0] or x[2] == players_df.at[t, 'web_name'] or x[0] == players_df.at[t, 'web_name']):  #If neither players are already involved in a transfer
                             y = True
                     if y == False:
                         transfers.append((p[0], p[2], players_df.at[t, 'web_name'], players_df.at[t, 'id'], gain, t))  # Current player, id, new player, id, gain, new position
-                        delta_changes+=1
+                        delta_changes+=gain
                     
         # MAKE TRANSFERS PROPOSED
         sorted_transfers = sorted(transfers, key=lambda x: x[4], reverse = True)
@@ -460,9 +460,9 @@ num_transfers = 1 # transfers available
 pos_forward_modifier = 0.75 # modifier if player is more forward than last season
 pos_back_modifier = 1.2  # modifier if player is more defensive than last season
 minutes_threshold = 2291 # threshold under which players are ignored for not playing enough (not in use)
-transfer_threshold = 2.0 # threshold for making a transfer
+transfer_threshold = 1.5 # threshold for making a transfer
 season_started = True # True if the season has started, False otherwise
-delta_threshold = 6 # The threshold at which wildcard will be triggered
+delta_threshold = 50.0 # The threshold at which wildcard will be triggered
 wildcard = True # If the wildcard is available
 
 # Position changes
