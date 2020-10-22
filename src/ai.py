@@ -310,11 +310,10 @@ def update_team():
                         fwds.append(player)
                         
                     # Predictions
-                    team_val += players_df.at[t, 'now_cost']
                     name = players_df.at[t, 'web_name']
                     pos = players_df.at[t, 'element_type']
                     team_preds.append((name, t, play_id, preds_next[t], preds_5[t], pos))
-
+        print(team_val)
         for t in range(total):
             for p in team_preds:
                 gain =  preds_5[t] - p[4]
@@ -323,9 +322,10 @@ def update_team():
                 # If affordable, worthwhile and same pos
                 if(validswap(players_df.at[t, 'now_cost'], players_df.at[p[1], 'now_cost'], team_val) and (gain > 5*transfer_threshold) and (p[5] == players_df.at[t, 'element_type'])):
                     y = False
-                    for x in transfers: 
-                        if(x[0] == p[0] or x[2] == players_df.at[t, 'web_name'] or x[0] == players_df.at[t, 'web_name']):  #If neither players are already involved in a transfer
-                            y = True
+                    for z in team:
+                        for x in transfers: 
+                            if(x[0] == p[0] or x[2] == players_df.at[t, 'web_name'] or x[0] == players_df.at[t, 'web_name'] or z[1] == str(x[1])):  #If neither players are already involved in a transfer
+                                y = True
                     if y == False:
                         transfers.append((p[0], p[2], players_df.at[t, 'web_name'], players_df.at[t, 'id'], gain, t))  # Current player, id, new player, id, gain, new position
                         delta_changes+=gain
@@ -393,6 +393,7 @@ def update_team():
             lowest = starting_team[0]
             for s in starting_team:  # Find lowest scoring player
                 if(preds_next[s[2]] < preds_next[lowest[2]]):
+                    this_pos = s
                     lowest = s
             if (preds_next[f[2]] > preds_next[lowest[2]]):
                 bench.append(lowest)
@@ -452,9 +453,8 @@ def update_team():
             
 # MANUAL VARIABLES
 new = False  # Make a new team or update existing
-total = 556  # total players
-gameweek = 4  # gameweek
-budget = 996  # total budget
+total = 588  # total players
+gameweek = 6  # gameweek
 stats = True # show stats
 num_transfers = 1 # transfers available
 pos_forward_modifier = 0.75 # modifier if player is more forward than last season
@@ -480,11 +480,20 @@ with open('../data/teams_data.json') as json_file:
     
 with open('../data/events_data.json') as json_file:
     events = json.load(json_file)
+    
+with open('../data/my_team.json') as json_file:
+    my_team = json.load(json_file)
 
 # Create pandas dataframes
 first_players_df = pd.DataFrame(players)
-teams_df = pd.DataFrame(teams)
+teams_df = pd.DataFrame(teams)  
 events_df = pd.DataFrame(events)
+myteam_df = pd.DataFrame(my_team)
+
+# Prepare budget values
+budget = myteam_df.at['classic', "last_deadline_value"]  # total budget
+team_val = budget - myteam_df.at['classic', "last_deadline_bank"]
+
 
 # Sort players dataframe by id
 players_df = first_players_df.sort_values('id')
@@ -582,7 +591,6 @@ for i in range(1, total+1): #total+1  # i is meant to be player position
         else:
             pred_5 = ((((last_total / 38) * last_season_weight) + ((ppg + form)/2 * (1- last_season_weight))) /2 * (5*((diffi_5/(5*average)) ** math.e)))  * chance_to_play(i-1)
             pred_next = ((((last_total / 38) * last_season_weight) + ((ppg + form)/2 * (1- last_season_weight))) /2 * ((diffi_next/(average)) ** math.e))  * chance_to_play(i-1)
-        
         # Check if misses next match
         if(player_fix[0]['event_name'] != ("Gameweek " + str(gameweek))):
             pred_5-=pred_next

@@ -1,38 +1,6 @@
 {
     "fixtures": [
         {
-            "id": 33,
-            "code": 2128320,
-            "team_h": 10,
-            "team_h_score": null,
-            "team_a": 12,
-            "team_a_score": null,
-            "event": 4,
-            "finished": false,
-            "minutes": 0,
-            "provisional_start_time": false,
-            "kickoff_time": "2020-10-03T16:30:00Z",
-            "event_name": "Gameweek 4",
-            "is_home": true,
-            "difficulty": 4
-        },
-        {
-            "id": 42,
-            "code": 2128329,
-            "team_h": 10,
-            "team_h_score": null,
-            "team_a": 20,
-            "team_a_score": null,
-            "event": 5,
-            "finished": false,
-            "minutes": 0,
-            "provisional_start_time": false,
-            "kickoff_time": "2020-10-17T14:00:00Z",
-            "event_name": "Gameweek 5",
-            "is_home": true,
-            "difficulty": 3
-        },
-        {
             "id": 50,
             "code": 2128337,
             "team_h": 2,
@@ -43,10 +11,10 @@
             "finished": false,
             "minutes": 0,
             "provisional_start_time": false,
-            "kickoff_time": "2020-10-24T14:00:00Z",
+            "kickoff_time": "2020-10-23T19:00:00Z",
             "event_name": "Gameweek 6",
             "is_home": false,
-            "difficulty": 2
+            "difficulty": 3
         },
         {
             "id": 62,
@@ -59,7 +27,7 @@
             "finished": false,
             "minutes": 0,
             "provisional_start_time": false,
-            "kickoff_time": "2020-10-31T15:00:00Z",
+            "kickoff_time": "2020-11-02T20:00:00Z",
             "event_name": "Gameweek 7",
             "is_home": true,
             "difficulty": 3
@@ -78,7 +46,7 @@
             "kickoff_time": "2020-11-07T15:00:00Z",
             "event_name": "Gameweek 8",
             "is_home": false,
-            "difficulty": 2
+            "difficulty": 3
         },
         {
             "id": 82,
@@ -94,7 +62,7 @@
             "kickoff_time": "2020-11-21T15:00:00Z",
             "event_name": "Gameweek 9",
             "is_home": true,
-            "difficulty": 3
+            "difficulty": 4
         },
         {
             "id": 93,
@@ -142,7 +110,7 @@
             "kickoff_time": "2020-12-12T15:00:00Z",
             "event_name": "Gameweek 12",
             "is_home": true,
-            "difficulty": 2
+            "difficulty": 3
         },
         {
             "id": 122,
@@ -190,7 +158,7 @@
             "kickoff_time": "2020-12-26T15:00:00Z",
             "event_name": "Gameweek 15",
             "is_home": true,
-            "difficulty": 3
+            "difficulty": 2
         },
         {
             "id": 158,
@@ -238,7 +206,7 @@
             "kickoff_time": "2021-01-12T19:45:00Z",
             "event_name": "Gameweek 18",
             "is_home": true,
-            "difficulty": 3
+            "difficulty": 2
         },
         {
             "id": 182,
@@ -302,7 +270,7 @@
             "kickoff_time": "2021-02-02T19:45:00Z",
             "event_name": "Gameweek 22",
             "is_home": true,
-            "difficulty": 2
+            "difficulty": 3
         },
         {
             "id": 222,
@@ -366,7 +334,7 @@
             "kickoff_time": "2021-02-27T15:00:00Z",
             "event_name": "Gameweek 26",
             "is_home": true,
-            "difficulty": 2
+            "difficulty": 3
         },
         {
             "id": 268,
@@ -382,7 +350,7 @@
             "kickoff_time": "2021-03-06T15:00:00Z",
             "event_name": "Gameweek 27",
             "is_home": false,
-            "difficulty": 2
+            "difficulty": 3
         },
         {
             "id": 273,
@@ -398,7 +366,7 @@
             "kickoff_time": "2021-03-13T15:00:00Z",
             "event_name": "Gameweek 28",
             "is_home": true,
-            "difficulty": 3
+            "difficulty": 4
         },
         {
             "id": 282,
@@ -494,7 +462,7 @@
             "kickoff_time": "2021-05-01T14:00:00Z",
             "event_name": "Gameweek 34",
             "is_home": false,
-            "difficulty": 2
+            "difficulty": 3
         },
         {
             "id": 342,
@@ -510,7 +478,7 @@
             "kickoff_time": "2021-05-08T14:00:00Z",
             "event_name": "Gameweek 35",
             "is_home": true,
-            "difficulty": 3
+            "difficulty": 4
         },
         {
             "id": 350,
@@ -526,7 +494,7 @@
             "kickoff_time": "2021-05-11T18:45:00Z",
             "event_name": "Gameweek 36",
             "is_home": false,
-            "difficulty": 3
+            "difficulty": 2
         },
         {
             "id": 366,
@@ -542,7 +510,7 @@
             "kickoff_time": "2021-05-15T14:00:00Z",
             "event_name": "Gameweek 37",
             "is_home": false,
-            "difficulty": 2
+            "difficulty": 3
         },
         {
             "id": 372,
@@ -660,6 +628,72 @@
             "selected": 3001,
             "transfers_in": 211,
             "transfers_out": 790
+        },
+        {
+            "element": 210,
+            "fixture": 33,
+            "opponent_team": 12,
+            "total_points": 0,
+            "was_home": true,
+            "kickoff_time": "2020-10-03T16:30:00Z",
+            "team_h_score": 1,
+            "team_a_score": 1,
+            "round": 4,
+            "minutes": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "clean_sheets": 0,
+            "goals_conceded": 0,
+            "own_goals": 0,
+            "penalties_saved": 0,
+            "penalties_missed": 0,
+            "yellow_cards": 0,
+            "red_cards": 0,
+            "saves": 0,
+            "bonus": 0,
+            "bps": 0,
+            "influence": "0.0",
+            "creativity": "0.0",
+            "threat": "0.0",
+            "ict_index": "0.0",
+            "value": 49,
+            "transfers_balance": -264,
+            "selected": 2898,
+            "transfers_in": 180,
+            "transfers_out": 444
+        },
+        {
+            "element": 210,
+            "fixture": 42,
+            "opponent_team": 20,
+            "total_points": 0,
+            "was_home": true,
+            "kickoff_time": "2020-10-19T19:00:00Z",
+            "team_h_score": 0,
+            "team_a_score": 1,
+            "round": 5,
+            "minutes": 0,
+            "goals_scored": 0,
+            "assists": 0,
+            "clean_sheets": 0,
+            "goals_conceded": 0,
+            "own_goals": 0,
+            "penalties_saved": 0,
+            "penalties_missed": 0,
+            "yellow_cards": 0,
+            "red_cards": 0,
+            "saves": 0,
+            "bonus": 0,
+            "bps": 0,
+            "influence": "0.0",
+            "creativity": "0.0",
+            "threat": "0.0",
+            "ict_index": "0.0",
+            "value": 49,
+            "transfers_balance": -314,
+            "selected": 2709,
+            "transfers_in": 89,
+            "transfers_out": 403
         }
     ],
     "history_past": []
