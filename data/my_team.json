@@ -9,11 +9,11 @@
     "player_region_name": "England",
     "player_region_iso_code_short": "EN",
     "player_region_iso_code_long": "ENG",
-    "summary_overall_points": 260,
-    "summary_overall_rank": 2660159,
-    "summary_event_points": 50,
-    "summary_event_rank": 5168270,
-    "current_event": 5,
+    "summary_overall_points": 1359,
+    "summary_overall_rank": 2462361,
+    "summary_event_points": 63,
+    "summary_event_rank": 2753997,
+    "current_event": 25,
     "leagues": {
         "classic": [
             {
@@ -28,11 +28,14 @@
                 "scoring": "c",
                 "admin_entry": null,
                 "start_event": 1,
-                "entry_rank": 342364,
-                "entry_last_rank": 285237,
                 "entry_can_leave": false,
                 "entry_can_admin": false,
-                "entry_can_invite": false
+                "entry_can_invite": false,
+                "has_cup": false,
+                "cup_league": null,
+                "cup_qualified": null,
+                "entry_rank": 303083,
+                "entry_last_rank": 310096
             },
             {
                 "id": 261,
@@ -46,11 +49,14 @@
                 "scoring": "c",
                 "admin_entry": null,
                 "start_event": 1,
-                "entry_rank": 833650,
-                "entry_last_rank": 634213,
                 "entry_can_leave": false,
                 "entry_can_admin": false,
-                "entry_can_invite": false
+                "entry_can_invite": false,
+                "has_cup": false,
+                "cup_league": null,
+                "cup_qualified": null,
+                "entry_rank": 728180,
+                "entry_last_rank": 733350
             },
             {
                 "id": 276,
@@ -64,11 +70,14 @@
                 "scoring": "c",
                 "admin_entry": null,
                 "start_event": 1,
-                "entry_rank": 2620092,
-                "entry_last_rank": 2045206,
                 "entry_can_leave": false,
                 "entry_can_admin": false,
-                "entry_can_invite": false
+                "entry_can_invite": false,
+                "has_cup": false,
+                "cup_league": null,
+                "cup_qualified": null,
+                "entry_rank": 2368069,
+                "entry_last_rank": 2392360
             },
             {
                 "id": 314,
@@ -82,11 +91,14 @@
                 "scoring": "c",
                 "admin_entry": null,
                 "start_event": 1,
-                "entry_rank": 2660159,
-                "entry_last_rank": 2060950,
                 "entry_can_leave": false,
                 "entry_can_admin": false,
-                "entry_can_invite": false
+                "entry_can_invite": false,
+                "has_cup": true,
+                "cup_league": 315,
+                "cup_qualified": true,
+                "entry_rank": 2462361,
+                "entry_last_rank": 2486516
             },
             {
                 "id": 206624,
@@ -100,11 +112,14 @@
                 "scoring": "c",
                 "admin_entry": 175854,
                 "start_event": 1,
-                "entry_rank": 70,
-                "entry_last_rank": 56,
                 "entry_can_leave": true,
                 "entry_can_admin": false,
-                "entry_can_invite": false
+                "entry_can_invite": false,
+                "has_cup": false,
+                "cup_league": null,
+                "cup_qualified": null,
+                "entry_rank": 84,
+                "entry_last_rank": 85
             },
             {
                 "id": 232172,
@@ -118,11 +133,14 @@
                 "scoring": "c",
                 "admin_entry": 733639,
                 "start_event": 1,
-                "entry_rank": 8,
-                "entry_last_rank": 7,
                 "entry_can_leave": true,
                 "entry_can_admin": false,
-                "entry_can_invite": false
+                "entry_can_invite": false,
+                "has_cup": false,
+                "cup_league": null,
+                "cup_qualified": null,
+                "entry_rank": 8,
+                "entry_last_rank": 9
             },
             {
                 "id": 994598,
@@ -136,27 +154,80 @@
                 "scoring": "c",
                 "admin_entry": 166488,
                 "start_event": 1,
-                "entry_rank": 2,
-                "entry_last_rank": 2,
                 "entry_can_leave": true,
                 "entry_can_admin": false,
-                "entry_can_invite": false
+                "entry_can_invite": false,
+                "has_cup": false,
+                "cup_league": null,
+                "cup_qualified": null,
+                "entry_rank": 2,
+                "entry_last_rank": 2
             }
         ],
         "h2h": [],
         "cup": {
-            "matches": [],
+            "matches": [
+                {
+                    "id": 46320840,
+                    "entry_1_entry": 3885742,
+                    "entry_1_name": "Fantasy Frog Bot",
+                    "entry_1_player_name": "FANTASY FROG",
+                    "entry_1_points": 19,
+                    "entry_1_win": 0,
+                    "entry_1_draw": 0,
+                    "entry_1_loss": 0,
+                    "entry_1_total": 0,
+                    "entry_2_entry": 1826140,
+                    "entry_2_name": "Dann the Man",
+                    "entry_2_player_name": "Neil Robinson",
+                    "entry_2_points": 33,
+                    "entry_2_win": 0,
+                    "entry_2_draw": 0,
+                    "entry_2_loss": 0,
+                    "entry_2_total": 0,
+                    "is_knockout": true,
+                    "winner": 1826140,
+                    "seed_value": null,
+                    "event": 18,
+                    "tiebreak": null
+                },
+                {
+                    "id": 43525800,
+                    "entry_1_entry": 3885742,
+                    "entry_1_name": "Fantasy Frog Bot",
+                    "entry_1_player_name": "FANTASY FROG",
+                    "entry_1_points": 68,
+                    "entry_1_win": 0,
+                    "entry_1_draw": 0,
+                    "entry_1_loss": 0,
+                    "entry_1_total": 0,
+                    "entry_2_entry": 675908,
+                    "entry_2_name": "missuozil",
+                    "entry_2_player_name": "Deepansh Pokhriyal",
+                    "entry_2_points": 65,
+                    "entry_2_win": 0,
+                    "entry_2_draw": 0,
+                    "entry_2_loss": 0,
+                    "entry_2_total": 0,
+                    "is_knockout": true,
+                    "winner": 3885742,
+                    "seed_value": null,
+                    "event": 17,
+                    "tiebreak": null
+                }
+            ],
             "status": {
                 "qualification_event": 16,
                 "qualification_numbers": 4194304,
-                "qualification_rank": null,
-                "qualification_state": "NOT_STARTED"
-            }
+                "qualification_rank": 294010,
+                "qualification_state": "QUALIFIED"
+            },
+            "cup_league": 315
         }
     },
     "name": "Fantasy Frog Bot",
     "kit": "{\"kit_shirt_type\":\"plain\",\"kit_shirt_base\":\"#E1E1E1\",\"kit_shirt_sleeves\":\"#E1E1E1\",\"kit_shirt_secondary\":\"#E1E1E1\",\"kit_shirt_logo\":\"none\",\"kit_shorts\":\"#E1E1E1\",\"kit_socks_type\":\"plain\",\"kit_socks_base\":\"#E1E1E1\",\"kit_socks_secondary\":\"#E1E1E1\"}",
-    "last_deadline_bank": 41,
-    "last_deadline_value": 998,
-    "last_deadline_total_transfers": 4
+    "last_deadline_bank": 0,
+    "last_deadline_value": 1019,
+    "last_deadline_total_transfers": 15
 }

@@ -50,106 +50,155 @@ def changed_position(x):
     
 # Create a team given the predictions
 def create_team():
-    gk_limit = 1 #2 # Amount of players per position
-    gk_num = 0
-    def_limit = 5 #5
-    def_num = 0
-    mid_limit = 5 #5
-    mid_num = 0 
-    fwd_limit = 3 #3
-    fwd_num = 0
-    
-    team_cost = 0
-    
-    selection = []
-    gks = []
-    defs = []
-    mids = []
-    fwds = []
-    
-    # good min price players for the bench
-    bench_gk = ('Temp', 520, 1)
-    
-    # MAKE SELECTIONS
-    for k in range(total):
-        select_pos = players_df.at[k, 'element_type']  # 1=gk, 2=def, 3=mid, 4=fwd
-        name = players_df.at[k, 'web_name'] + ' (' + get_team(players_df.at[k, 'team']) + ')'
-        p_id = players_df.at[k, 'id']
-        if (select_pos == 1):
-            if (gk_num < gk_limit):
-                gks.append((name, k, p_id))
-                gk_num +=1
-                team_cost+= float(players_df.at[k, 'now_cost'])
-            else:
-                for m in range(gk_limit):
-                    if(validswap(float(players_df.at[k, 'now_cost']), float(players_df.at[gks[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[gks[m][1]]):
-                        new_gks = [n for n in gks if n[0] != gks[m][0]]
+    good = False    # Cycle again if repeated players
+    blacklist = []
+    while not good:
+        good = True
+        gk_limit = 1 #2 # Amount of players per position
+        gk_num = 0
+        def_limit = 5 #5
+        def_num = 0
+        mid_limit = 5 #5
+        mid_num = 0 
+        fwd_limit = 3 #3
+        fwd_num = 0
+        
+        team_cost = 0
+        
+        selection = []
+        gks = []
+        defs = []
+        mids = []
+        fwds = []
+        
+        # good min price players for the bench
+        bench_gk = ('Temp', 520, 1)
+        
+        # MAKE SELECTIONS
+        for k in range(total):
+            select_pos = players_df.at[k, 'element_type']  # 1=gk, 2=def, 3=mid, 4=fwd
+            name = players_df.at[k, 'web_name'] + ' (' + get_team(players_df.at[k, 'team']) + ')'
+            p_id = players_df.at[k, 'id']
+            if (select_pos == 1):
+                if (gk_num < gk_limit):
+                    gks.append((name, k, p_id))
+                    gk_num +=1
+                    team_cost+= float(players_df.at[k, 'now_cost'])
+                else:
+                    for m in range(gk_limit):
+                        if(validswap(float(players_df.at[k, 'now_cost']), float(players_df.at[gks[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[gks[m][1]] and p_id not in blacklist):
+                            new_gks = [n for n in gks if n[0] != gks[m][0]]
+                            
+                            new_gks.append((name, k, p_id))
+                            
+                            team_cost -= float(players_df.at[gks[m][1], 'now_cost'])
+                            team_cost += float(players_df.at[k, 'now_cost'])
+                            
+                            gks = new_gks
+                            
+                if((float(players_df.at[k, 'now_cost']) == 40) and (preds_5[k] >= preds_5[bench_gk[1]])):  # if eligible to be a good bench gk
+                    bench_gk = (name, k, p_id)
                         
-                        new_gks.append((name, k, p_id))
-                        
-                        team_cost -= float(players_df.at[gks[m][1], 'now_cost'])
-                        team_cost += float(players_df.at[k, 'now_cost'])
-                        
-                        gks = new_gks
-                        
-            if((float(players_df.at[k, 'now_cost']) == 40) and (preds_5[k] >= preds_5[bench_gk[1]])):  # if eligible to be a good bench gk
-                bench_gk = (name, k, p_id)
+            elif (select_pos == 2):
+                if (def_num < def_limit):
+                    defs.append((name, k, p_id))
+                    def_num +=1
+                    team_cost+= float(players_df.at[k, 'now_cost'])
+                else:
+                    for m in range(def_limit):
+                        if(validswap(float(players_df.at[k, 'now_cost']), float(players_df.at[defs[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[defs[m][1]] and p_id not in blacklist):
+                            new_defs = [n for n in defs if n[0] != defs[m][0]]
+                            
+                            new_defs.append((name, k, p_id))
+                            
+                            team_cost -= float(players_df.at[defs[m][1], 'now_cost'])
+                            team_cost += float(players_df.at[k, 'now_cost'])
+                            
+                            defs = new_defs
+                            break
                     
-        elif (select_pos == 2):
-            if (def_num < def_limit):
-                defs.append((name, k, p_id))
-                def_num +=1
-                team_cost+= float(players_df.at[k, 'now_cost'])
-            else:
-                for m in range(def_limit):
-                    if(validswap(float(players_df.at[k, 'now_cost']), float(players_df.at[defs[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[defs[m][1]]):
-                        new_defs = [n for n in defs if n[0] != defs[m][0]]
-                        
-                        new_defs.append((name, k, p_id))
-                        
-                        team_cost -= float(players_df.at[defs[m][1], 'now_cost'])
-                        team_cost += float(players_df.at[k, 'now_cost'])
-                        
-                        defs = new_defs
-                        break
+            elif (select_pos == 3):
+                if(mid_num < mid_limit):
+                    mids.append((name, k, p_id))
+                    mid_num +=1
+                    team_cost+= float(players_df.at[k, 'now_cost'])
+                else:
+                    for m in range(mid_limit):
+                        if(validswap(float(players_df.at[k, 'now_cost']), float(players_df.at[mids[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[mids[m][1]] and p_id not in blacklist):
+                            new_mids = [n for n in mids if n[0] != mids[m][0]]
+                            
+                            new_mids.append((name, k, p_id))
+                            
+                            team_cost -= float(players_df.at[mids[m][1], 'now_cost'])
+                            team_cost += float(players_df.at[k, 'now_cost'])
+                            
+                            mids = new_mids
+                            break
+                    
+            elif (select_pos == 4):
+                if(fwd_num < fwd_limit):
+                    fwds.append((name, k, p_id))
+                    fwd_num +=1
+                    team_cost+= float(players_df.at[k, 'now_cost'])
+                else:
+                    for m in range(fwd_limit):
+                        if(validswap(float(players_df.at[k, 'now_cost']), float(players_df.at[fwds[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[fwds[m][1]] and p_id not in blacklist):
+                            new_fwds = [n for n in fwds if n[0] != fwds[m][0]]
+                            
+                            new_fwds.append((name, k, p_id))
+                            
+                            team_cost -= float(players_df.at[fwds[m][1], 'now_cost'])
+                            team_cost += float(players_df.at[k, 'now_cost'])
+                            
+                            fwds = new_fwds
+                            break
+          
+        gks.append(bench_gk)
+        
+        count_teams = []
+        for g in gks:
+            s = g[0].split(' ')
+            count_teams.append(s[1])
+        for g in defs:
+            s = g[0].split(' ')
+            count_teams.append(s[1])
+        for g in mids:
+            s = g[0].split(' ')
+            count_teams.append(s[1])
+        for g in fwds:
+            s = g[0].split(' ')
+            count_teams.append(s[1])
+        
+        offending = ''
+        for c in count_teams:
+            x = count_teams.count(c)
+            if x > 3:
+                good = False
+                offending = c
+        
+        if offending != '':
+            least = (1, 100)
+            for g in gks:
+                s = g[0].split(' ')
+                if preds_5[g[1]] < least[1] and s[1] == offending:
+                    least = (g[2], preds_5[g[1]])
+            for g in defs:
+                s = g[0].split(' ')
+                if preds_5[g[1]] < least[1] and s[1] == offending:
+                    least = (g[2], preds_5[g[1]])
+            for g in mids:
+                s = g[0].split(' ')
+                if preds_5[g[1]] < least[1] and s[1] == offending:
+                    least = (g[2], preds_5[g[1]])
+            for g in fwds:
+                s = g[0].split(' ')
+                if preds_5[g[1]] < least[1] and s[1] == offending:
+                    least = (g[2], preds_5[g[1]])
+        
+        if offending != '':
+            blacklist.append(least[0])
+            print('Blacklisted :' + str(least[0]))
                 
-        elif (select_pos == 3):
-            if(mid_num < mid_limit):
-                mids.append((name, k, p_id))
-                mid_num +=1
-                team_cost+= float(players_df.at[k, 'now_cost'])
-            else:
-                for m in range(mid_limit):
-                    if(validswap(float(players_df.at[k, 'now_cost']), float(players_df.at[mids[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[mids[m][1]]):
-                        new_mids = [n for n in mids if n[0] != mids[m][0]]
-                        
-                        new_mids.append((name, k, p_id))
-                        
-                        team_cost -= float(players_df.at[mids[m][1], 'now_cost'])
-                        team_cost += float(players_df.at[k, 'now_cost'])
-                        
-                        mids = new_mids
-                        break
-                
-        elif (select_pos == 4):
-            if(fwd_num < fwd_limit):
-                fwds.append((name, k, p_id))
-                fwd_num +=1
-                team_cost+= float(players_df.at[k, 'now_cost'])
-            else:
-                for m in range(fwd_limit):
-                    if(validswap(float(players_df.at[k, 'now_cost']), float(players_df.at[fwds[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[fwds[m][1]]):
-                        new_fwds = [n for n in fwds if n[0] != fwds[m][0]]
-                        
-                        new_fwds.append((name, k, p_id))
-                        
-                        team_cost -= float(players_df.at[fwds[m][1], 'now_cost'])
-                        team_cost += float(players_df.at[k, 'now_cost'])
-                        
-                        fwds = new_fwds
-                        break
-      
-    gks.append(bench_gk)
     
     # Find predicted score for this week and next weeks
     pred_week = 0
@@ -283,7 +332,7 @@ def update_team():
         mids = []
         fwds = []
         team = []
-        team_val = 0
+        #team_val = 0
         transfers = []
         delta_changes = 0 # The desire for a wildcard
         
@@ -342,6 +391,31 @@ def update_team():
         # MAKE TRANSFERS PROPOSED
         sorted_transfers = sorted(transfers, key=lambda x: x[4], reverse = True)
         
+        # Remove if the player is already in team
+        not_in_team = []
+        for s in sorted_transfers:
+            x = False
+            for t in team:
+                if s[3] == int(t[1]):
+                    x = True
+                    break
+            if not x:
+                not_in_team.append(s)
+        sorted_transfers = not_in_team
+        
+        # Remove duplicates
+        uniques = []
+        for s in sorted_transfers:
+            x = False
+            for u in uniques:
+                if s[0] == u[0]:
+                    x = True
+                    break
+            if not x:
+                uniques.append(s)
+        sorted_transfers = uniques
+        
+            
         if(stats == True):
             for x in sorted_transfers:
                 print(x[0] + " to " + x[2] + " (" + str(x[4]) + ")")
@@ -355,6 +429,10 @@ def update_team():
             top_transfers = []
             if(len(sorted_transfers) >= num_transfers):
                 for x in range(num_transfers):
+                    top_transfers.append(sorted_transfers[x]) # Append transfers to be made
+                    print(top_transfers[x][0] + " to " + top_transfers[x][2])
+            else:
+                for x in range(len(sorted_transfers)):
                     top_transfers.append(sorted_transfers[x]) # Append transfers to be made
                     print(top_transfers[x][0] + " to " + top_transfers[x][2])
         
@@ -464,17 +542,17 @@ def update_team():
             
 # MANUAL VARIABLES
 new = False  # Make a new team or update existing
-total = 588  # total players
-gameweek = 6  # gameweek
+total = 673  # total players
+gameweek = 26  # gameweek
 stats = True # show stats
-num_transfers = 1 # transfers available
+num_transfers = 2 # transfers available
 pos_forward_modifier = 0.75 # modifier if player is more forward than last season
 pos_back_modifier = 1.2  # modifier if player is more defensive than last season
 minutes_threshold = 2291 # threshold under which players are ignored for not playing enough (not in use)
 transfer_threshold = 1.5 # threshold for making a transfer
 season_started = True # True if the season has started, False otherwise
 delta_threshold = 50.0 # The threshold at which wildcard will be triggered
-wildcard = True # If the wildcard is available
+wildcard = False # If the wildcard is available
 
 # Position changes
 changes = {'id': [4, 26, 50, 51, 166, 149, 168, 266, 303, 306, 315, 322, 355, 358, 399, 391, 437, 468], 
@@ -578,8 +656,10 @@ for i in range(1, total+1): #total+1  # i is meant to be player position
                     last_minutes = h[5]
         
         # MAKE PREDICTIONS
-        last_season_weight = math.log10(8-gameweek)  # Weight of past season should decrease over time
-        
+        if gameweek < 8:
+            last_season_weight = math.log10(8-gameweek)  # Weight of past season should decrease over time
+        else:
+            last_season_weight = 0
         last_total = last_total * changed_position(i-1)# Apply a modifier if player changes pos
         '''
         if(form == 0.0): # if no form
@@ -606,6 +686,9 @@ for i in range(1, total+1): #total+1  # i is meant to be player position
         if(player_fix[0]['event_name'] != ("Gameweek " + str(gameweek))):
             pred_5-=pred_next
             pred_next = 0
+        if(player_fix[1]['event_name'] != ("Gameweek " + str(gameweek))):
+            pred_5+=pred_next
+            pred_next = pred_next*2
         # Add to array
         preds_5.append(pred_5)
         preds_next.append(pred_next)

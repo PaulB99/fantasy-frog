@@ -10,7 +10,7 @@ import pandas as pd
 import json
 
 # Total players
-total = 588
+total = 673
 
 def get(url):
     response = requests.get(url)
@@ -38,12 +38,15 @@ events = response['events']
 # Save info
 with open('../data/players_data.json', 'w', encoding='utf-8') as f:
     json.dump(players, f, ensure_ascii=False, indent=4)
+print("Saved player data")
     
 with open('../data/teams_data.json', 'w', encoding='utf-8') as f:
     json.dump(teams, f, ensure_ascii=False, indent=4)
+print("Saved team data")
     
 with open('../data/events_data.json', 'w', encoding='utf-8') as f:
     json.dump(events, f, ensure_ascii=False, indent=4)
+print("Saved event data")
     
 # Import detailed info
 for i in range(1, total+1):
@@ -51,8 +54,10 @@ for i in range(1, total+1):
     path = '../data/players/' + str(i) + '.json'
     with open(path, 'w', encoding='utf-8') as f:
         json.dump(info, f, ensure_ascii=False, indent=4)
+print("Saved individual player data")
         
 url = "https://fantasy.premierleague.com/api/entry/3885742/"
 response1 = get(url)
 with open('../data/my_team.json', 'w', encoding='utf-8') as f:
     json.dump(response1, f, ensure_ascii=False, indent=4)
+print("Done")
