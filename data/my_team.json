@@ -9,11 +9,11 @@
     "player_region_name": "England",
     "player_region_iso_code_short": "EN",
     "player_region_iso_code_long": "ENG",
-    "summary_overall_points": 1359,
-    "summary_overall_rank": 2462361,
-    "summary_event_points": 63,
-    "summary_event_rank": 2753997,
-    "current_event": 25,
+    "summary_overall_points": 1894,
+    "summary_overall_rank": 2700556,
+    "summary_event_points": 42,
+    "summary_event_rank": 3338666,
+    "current_event": 36,
     "leagues": {
         "classic": [
             {
@@ -34,8 +34,8 @@
                 "has_cup": false,
                 "cup_league": null,
                 "cup_qualified": null,
-                "entry_rank": 303083,
-                "entry_last_rank": 310096
+                "entry_rank": 333092,
+                "entry_last_rank": 330814
             },
             {
                 "id": 261,
@@ -55,8 +55,8 @@
                 "has_cup": false,
                 "cup_league": null,
                 "cup_qualified": null,
-                "entry_rank": 728180,
-                "entry_last_rank": 733350
+                "entry_rank": 810193,
+                "entry_last_rank": 816400
             },
             {
                 "id": 276,
@@ -76,8 +76,8 @@
                 "has_cup": false,
                 "cup_league": null,
                 "cup_qualified": null,
-                "entry_rank": 2368069,
-                "entry_last_rank": 2392360
+                "entry_rank": 2562042,
+                "entry_last_rank": 2578339
             },
             {
                 "id": 314,
@@ -97,8 +97,8 @@
                 "has_cup": true,
                 "cup_league": 315,
                 "cup_qualified": true,
-                "entry_rank": 2462361,
-                "entry_last_rank": 2486516
+                "entry_rank": 2700556,
+                "entry_last_rank": 2717516
             },
             {
                 "id": 206624,
@@ -118,8 +118,8 @@
                 "has_cup": false,
                 "cup_league": null,
                 "cup_qualified": null,
-                "entry_rank": 84,
-                "entry_last_rank": 85
+                "entry_rank": 85,
+                "entry_last_rank": 86
             },
             {
                 "id": 232172,
@@ -139,7 +139,7 @@
                 "has_cup": false,
                 "cup_league": null,
                 "cup_qualified": null,
-                "entry_rank": 8,
+                "entry_rank": 9,
                 "entry_last_rank": 9
             },
             {
@@ -227,7 +227,7 @@
     },
     "name": "Fantasy Frog Bot",
     "kit": "{\"kit_shirt_type\":\"plain\",\"kit_shirt_base\":\"#E1E1E1\",\"kit_shirt_sleeves\":\"#E1E1E1\",\"kit_shirt_secondary\":\"#E1E1E1\",\"kit_shirt_logo\":\"none\",\"kit_shorts\":\"#E1E1E1\",\"kit_socks_type\":\"plain\",\"kit_socks_base\":\"#E1E1E1\",\"kit_socks_secondary\":\"#E1E1E1\"}",
-    "last_deadline_bank": 0,
-    "last_deadline_value": 1019,
-    "last_deadline_total_transfers": 15
+    "last_deadline_bank": 57,
+    "last_deadline_value": 1001,
+    "last_deadline_total_transfers": 26
 }

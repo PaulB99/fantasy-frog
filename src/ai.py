@@ -542,8 +542,8 @@ def update_team():
             
 # MANUAL VARIABLES
 new = False  # Make a new team or update existing
-total = 673  # total players
-gameweek = 26  # gameweek
+total = 703  # total players
+gameweek = 1  # gameweek
 stats = True # show stats
 num_transfers = 2 # transfers available
 pos_forward_modifier = 0.75 # modifier if player is more forward than last season
@@ -616,7 +616,8 @@ for i in range(1, total+1): #total+1  # i is meant to be player position
         
         diffi_5 = 0  #difficulty of next 5
         diffi_next = 0 # difficulty of next 1
-        for j in range(5):   # difficulty of next 5 matches
+        jaz = min(5, len(fix_df))
+        for j in range(jaz):   # difficulty of next 5 matches
             if(fix_df.at[j, 'is_home'] == True):    # Set opposition
                 opposition = fix_df.at[j, 'team_a']
                 home = True
