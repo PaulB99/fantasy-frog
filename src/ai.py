@@ -15,6 +15,7 @@ import csv
 # Checks if a swap can be made in budget
 def validswap(x, y, value):
     if(value + x - y <= (budget)):
+        #print(str(x) + str(y))
         return True
     else:
         return False
@@ -72,15 +73,17 @@ def create_team():
         fwds = []
         
         # good min price players for the bench
-        bench_gk = ('Temp', 520, 1)
+        bench_gk = ('Temp', 1, 1)
         
         # MAKE SELECTIONS
         for k in range(total):
             select_pos = players_df.at[k, 'element_type']  # 1=gk, 2=def, 3=mid, 4=fwd
             name = players_df.at[k, 'web_name'] + ' (' + get_team(players_df.at[k, 'team']) + ')'
-            p_id = players_df.at[k, 'id']
+            p_id = str(players_df.at[k, 'id'])
+            if p_id in blacklist:
+                continue
             if (select_pos == 1):
-                if (gk_num < gk_limit):
+                if (gk_num < gk_limit and p_id not in blacklist):
                     gks.append((name, k, p_id))
                     gk_num +=1
                     team_cost+= float(players_df.at[k, 'now_cost'])
@@ -100,13 +103,14 @@ def create_team():
                     bench_gk = (name, k, p_id)
                         
             elif (select_pos == 2):
-                if (def_num < def_limit):
+                if (def_num < def_limit and p_id not in blacklist):
                     defs.append((name, k, p_id))
                     def_num +=1
                     team_cost+= float(players_df.at[k, 'now_cost'])
                 else:
                     for m in range(def_limit):
                         if(validswap(float(players_df.at[k, 'now_cost']), float(players_df.at[defs[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[defs[m][1]] and p_id not in blacklist):
+                            print('here')
                             new_defs = [n for n in defs if n[0] != defs[m][0]]
                             
                             new_defs.append((name, k, p_id))
@@ -118,13 +122,14 @@ def create_team():
                             break
                     
             elif (select_pos == 3):
-                if(mid_num < mid_limit):
+                if(mid_num < mid_limit and p_id not in blacklist):
                     mids.append((name, k, p_id))
                     mid_num +=1
                     team_cost+= float(players_df.at[k, 'now_cost'])
                 else:
                     for m in range(mid_limit):
                         if(validswap(float(players_df.at[k, 'now_cost']), float(players_df.at[mids[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[mids[m][1]] and p_id not in blacklist):
+                            print('here')
                             new_mids = [n for n in mids if n[0] != mids[m][0]]
                             
                             new_mids.append((name, k, p_id))
@@ -136,13 +141,14 @@ def create_team():
                             break
                     
             elif (select_pos == 4):
-                if(fwd_num < fwd_limit):
+                if(fwd_num < fwd_limit and p_id not in blacklist):
                     fwds.append((name, k, p_id))
                     fwd_num +=1
                     team_cost+= float(players_df.at[k, 'now_cost'])
                 else:
                     for m in range(fwd_limit):
                         if(validswap(float(players_df.at[k, 'now_cost']), float(players_df.at[fwds[m][1], 'now_cost']), team_cost) and preds_5[k] > preds_5[fwds[m][1]] and p_id not in blacklist):
+                            print('here')
                             new_fwds = [n for n in fwds if n[0] != fwds[m][0]]
                             
                             new_fwds.append((name, k, p_id))
@@ -196,8 +202,9 @@ def create_team():
                     least = (g[2], preds_5[g[1]])
         
         if offending != '':
-            blacklist.append(least[0])
+            blacklist.append(str(least[0]))
             print('Blacklisted :' + str(least[0]))
+            
                 
     
     # Find predicted score for this week and next weeks
@@ -541,8 +548,8 @@ def update_team():
 # 
             
 # MANUAL VARIABLES
-new = False  # Make a new team or update existing
-total = 703  # total players
+new = True  # Make a new team or update existing
+total = 528  # total players
 gameweek = 1  # gameweek
 stats = True # show stats
 num_transfers = 2 # transfers available
@@ -550,7 +557,7 @@ pos_forward_modifier = 0.75 # modifier if player is more forward than last seaso
 pos_back_modifier = 1.2  # modifier if player is more defensive than last season
 minutes_threshold = 2291 # threshold under which players are ignored for not playing enough (not in use)
 transfer_threshold = 1.5 # threshold for making a transfer
-season_started = True # True if the season has started, False otherwise
+season_started = False # True if the season has started, False otherwise
 delta_threshold = 50.0 # The threshold at which wildcard will be triggered
 wildcard = False # If the wildcard is available
 

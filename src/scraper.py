@@ -10,7 +10,7 @@ import pandas as pd
 import json
 
 # Total players
-total = 703
+total = 528
 
 def get(url):
     response = requests.get(url)
@@ -56,7 +56,7 @@ for i in range(1, total+1):
         json.dump(info, f, ensure_ascii=False, indent=4)
 print("Saved individual player data")
         
-url = "https://fantasy.premierleague.com/api/entry/3885742/"
+url = "https://fantasy.premierleague.com/api/entry/2712229/"
 response1 = get(url)
 with open('../data/my_team.json', 'w', encoding='utf-8') as f:
     json.dump(response1, f, ensure_ascii=False, indent=4)
